@@ -1,5 +1,44 @@
 # communience-store
 
+## 初回実行
+
+1. 入ってない人はNode.jsを入れる
+1. 自分のPCでPowerShell等のbashを開いて`conmmunience-store`まで移動  
+1. `npm install`  
+    を実行
+1. `docker-compose up --build`  
+   を実行 
+1. ```bash
+    commuen_front | ✔ Builder initialized
+    commuen_front | ✔ Nuxt files generated
+    commuen_front | ℹ Compiling Client
+    commuen_front | ✔ Client: Compiled successfully in 15.16s
+    commuen_front | ℹ Waiting for file changes
+    commuen_front | ℹ Memory usage: 311 MB (RSS: 416 MB)
+    commuen_front | ℹ Listening on: http://172.19.0.2:8080/
+    ```
+1. ↑のように表示されたらブラウザを開いて`http://localhost:8080`にアクセス
+
+## 2回目以降
+1. 自分のPCでPowerShell等のbashを開いて`conmmunience-store`まで移動
+2. `docker-compose up --build`  
+   を実行 
+1. ```bash
+    commuen_front | ✔ Builder initialized
+    commuen_front | ✔ Nuxt files generated
+    commuen_front | ℹ Compiling Client
+    commuen_front | ✔ Client: Compiled successfully in 15.16s
+    commuen_front | ℹ Waiting for file changes
+    commuen_front | ℹ Memory usage: 311 MB (RSS: 416 MB)
+    commuen_front | ℹ Listening on: http://172.19.0.2:8080/
+    ```
+1. ↑のように表示されたらブラウザを開いて`http://localhost:8080`にアクセス
+
+---
+    
+
+
+
 ## Build Setup
 
 ```bash

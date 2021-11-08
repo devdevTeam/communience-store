@@ -3,7 +3,7 @@
 ## 初回実行
 
 1. 入ってない人はNode.jsを入れる
-1. 自分のPCでPowerShell等のbashを開いて`conmmunience-store`まで移動  
+1. 自分のPCでPowerShell等のbashを開いて`mmunience-store`まで移動  
 1. `npm install`  
     を実行
 1. `docker-compose up --build`  
@@ -20,7 +20,7 @@
 1. ↑のように表示されたらブラウザを開いて`http://localhost:8080`にアクセス
 
 ## 2回目以降
-1. 自分のPCでPowerShell等のbashを開いて`conmmunience-store`まで移動
+1. 自分のPCでPowerShell等のbashを開いて`communience-store`まで移動
 2. `docker-compose up --build`  
    を実行 
 1. ```bash

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"communience-store/backend/auth"
 	"communience-store/backend/lib"
 	"os"
 
@@ -17,8 +18,8 @@ func main() {
 	r.Use(cors.New(config))
 
 	// routing
-	// api := r.Group("/api")
-	// api.POST("/signup", auth.Signup)
+	api := r.Group("/api")
+	api.POST("/signup", auth.Signup)
 
 	r.GET("/", root)
 	port := ":8080"

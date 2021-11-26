@@ -1,5 +1,9 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
+
+# firebase
+backend/firebase/key/*
+
 # Logs
 /logs
 *.log

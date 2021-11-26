@@ -1,12 +1,28 @@
 version: "3"
+
 services:
-    frontend:
-      container_name: "commuen_front"
-      build:
-        context: .
-        dockerfile: Dockerfile
-      # コードの変更を仮想環境でもリアルタイムで変更したい
-      volumes:
-        - .:/app
-      ports:
-        - 8080:8080
+  db:
+    build:
+      context: ./db
+      dockerfile: ./Dockerfile
+  frontend:
+    container_name: "commuen_front"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # コードの変更を仮想環境でもリアルタイムで変更したい
+    volumes:
+      - .:/app
+    # ports:
+    #   - 8080:8080
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./
+    tty: true
+    # コードの変更を仮想環境でもリアルタイムで変更したい
+    volumes:
+      - ./backend:/app/backend
+    # backend_dev用
+    ports:
+      - 8080:8080

@@ -2,6 +2,7 @@ package main
 
 import (
 	"communience-store/backend/auth"
+	"communience-store/backend/internal"
 	"communience-store/backend/lib"
 	"os"
 
@@ -20,6 +21,7 @@ func main() {
 	// routing
 	api := r.Group("/api")
 	api.POST("/signup", auth.Signup)
+	api.POST("/makeRoom", internal.MakeRoom)
 
 	r.GET("/", root)
 	port := ":8080"

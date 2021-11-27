@@ -105,6 +105,7 @@ return-param
 request-param
 .roomname
 .password
+.uid
 ```
 ```
 return-param

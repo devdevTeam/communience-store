@@ -88,6 +88,9 @@ request-param
 return-param
 .done
 ```
+```
+curl -X POST -d 'rid={rid}' -d 'uid={uid}' -d localhost:8080/api/joinRoom
+```
 ### /leaveRoom
 - userがroomから抜ける時にたたく
 ```
@@ -98,6 +101,9 @@ request-param
 ```
 return-param
 .done
+```
+```
+curl -X POST -d 'rid={rid}' -d 'uid={uid}' localhost:8080/api/leaveRoom
 ```
 ### /makeRoom
 - userがroomを作る
@@ -110,6 +116,9 @@ request-param
 ```
 return-param
 .error
+```
+```
+curl -X POST -d 'roomname=room1' -d 'password=1111' -d 'uid={uid}' localhost:8080/api/makeRoom
 ```
 
 ## /event

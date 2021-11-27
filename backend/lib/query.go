@@ -17,3 +17,12 @@ func InsertNewRoom(rid, roomName, password string) error {
 	}
 	return nil
 }
+
+func InsertUserRoomRelation(uid, rid string, admin bool) error {
+	query := "INSERT INTO user_room_relation (uid, rid, admin) VALUES ($1, $2, $3)"
+	err := Conn.Exec(query, uid, rid, admin)
+	if err != nil {
+		return err
+	}
+	return nil
+}

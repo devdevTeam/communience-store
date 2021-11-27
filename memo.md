@@ -145,7 +145,14 @@ request-param
 ```
 ```
 return-param
-.colList
+.colList[
+    {col_name},
+    {col_name}
+]
+.error
+```
+```
+curl -X POST -d 'rid={rid}' localhost:8080/api/getForm
 ```
 ### /makeForm
 - そのroomのformを登録する

@@ -61,7 +61,7 @@ func SelectUser(uid string) ([]string, error) {
 }
 
 func SelectUserRoomList(uid string) ([]interface{}, error) {
-	query := `select rooms.*, user_room_relation.admin
+	query := `SELECT rooms.*, user_room_relation.admin
 				FROM user_room_relation 
 				INNER JOIN rooms ON user_room_relation.rid = rooms.rid AND user_room_relation.uid=$1`
 	rows, err := Conn.GetRow(query, uid)
@@ -77,6 +77,19 @@ func SelectUserRoomList(uid string) ([]interface{}, error) {
 		tmp["admin"] = row[3].(bool)
 		result = append(result, tmp)
 		tmp = map[string]interface{}{}
+	}
+	return result, nil
+}
+
+func SelectForm(rid string) ([]string, error) {
+	query := "SELECT col_name, col_idx FROM forms WHERE rid = $1 ORDER BY col_idx"
+	rows, err := Conn.GetRow(query, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []string
+	for _, row := range rows {
+		result = append(result, row[0].(string))
 	}
 	return result, nil
 }

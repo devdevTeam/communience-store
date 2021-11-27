@@ -31,5 +31,4 @@ func main() {
 
 func root(ctx *gin.Context) {
 	ctx.Writer.WriteString("hello")
-	lib.InsertTest("test")
 }

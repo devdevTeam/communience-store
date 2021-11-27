@@ -25,6 +25,7 @@ func main() {
 	api.POST("/joinRoom", internal.JoinRoom)
 	api.POST("/leaveRoom", internal.LeaveRoom)
 	api.POST("/getUserInfo", internal.GetUserInfo)
+	api.POST("/getRoomList", internal.GetRoomList)
 
 	r.GET("/", root)
 	port := ":8080"

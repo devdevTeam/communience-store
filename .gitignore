@@ -4,6 +4,9 @@
 # firebase
 backend/firebase/key/*
 
+# backend
+backend/tmp/*
+
 # Logs
 /logs
 *.log

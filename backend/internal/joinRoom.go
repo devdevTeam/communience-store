@@ -10,9 +10,8 @@ import (
 func JoinRoom(ctx *gin.Context) {
 	req := ctx.Request
 	req.ParseForm()
-	token := req.PostFormValue("token")
+	uid := req.PostFormValue("uid")
 	rid := req.PostFormValue("rid")
-	uid := lib.ConvertUID(token)
 	err := lib.InsertUserRoomRelation(uid, rid, false)
 	if err != nil {
 		ctx.Error(err)

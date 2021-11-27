@@ -22,6 +22,7 @@ func main() {
 	api := r.Group("/api")
 	api.POST("/signup", auth.Signup)
 	api.POST("/makeRoom", internal.MakeRoom)
+	api.POST("/joinRoom", internal.JoinRoom)
 
 	r.GET("/", root)
 	port := ":8080"

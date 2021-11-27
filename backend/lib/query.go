@@ -8,3 +8,12 @@ func InsertNewUser(uid, mail, password, userName string) error {
 	}
 	return nil
 }
+
+func InsertNewRoom(rid, roomName, password string) error {
+	query := "INSERT INTO rooms (rid, name, password) VALUES ($1, $2, $3)"
+	err := Conn.Exec(query, rid, roomName, password)
+	if err != nil {
+		return err
+	}
+	return nil
+}

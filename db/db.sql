@@ -7,3 +7,10 @@ CREATE TABLE users (
     name VARCHAR(32) NOT NULL,
     PRIMARY KEY (uid)
 );
+
+CREATE TABLE rooms (
+    rid VARCHAR(64) NOT NULL, 
+    name VARCHAR(32) NOT NULL,
+    password VARCHAR(32) NOT NULL,
+    PRIMARY KEY (rid)
+);

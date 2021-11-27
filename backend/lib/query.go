@@ -1,5 +1,7 @@
 package lib
 
+import "fmt"
+
 func InsertNewUser(uid, mail, password, userName string) error {
 	query := "INSERT INTO users (uid, mail, password, name) VALUES ($1, $2, $3, $4)"
 	err := Conn.Exec(query, uid, mail, password, userName)
@@ -34,4 +36,18 @@ func DeleteUserRoomRelation(uid, rid string) error {
 		return err
 	}
 	return nil
+}
+
+func SelectUser(uid string) ([]string, error) {
+	query := "SELECT * FROM users WHERE uid = $1"
+	row, err := Conn.GetRow(query, uid)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(row)
+	var result []string
+	for _, col := range row[0] {
+		result = append(result, col.(string))
+	}
+	return result, nil
 }

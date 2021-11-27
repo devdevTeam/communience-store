@@ -44,11 +44,16 @@ request-param
 ```
 ```
 return-param
+.uid
 .mail
-.pass
+.password
+.name
 .default_col1
 .default_col2
 .default_col3
+```
+```
+curl -X POST -d 'rid=76a64e86-06ed-456f-a49e-f6bdc3d03953' -d 'uid={uid}' localhost:8080/api/leaveRoom
 ```
 ### /updateUserInfo
 - userテーブルの情報を更新する時にたたく

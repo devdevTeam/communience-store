@@ -71,7 +71,7 @@ export default {
     async send() {
       let error = null
       this.progressCircle = true
-      let user = await this.$fire.auth.signInWithEmailAndPassword(this.signinInfo.mail, this.signinInfo.password)
+      await this.$fire.auth.signInWithEmailAndPassword(this.signinInfo.mail, this.signinInfo.password)
       .catch((err) => error = err.code)
       this.progressCircle = false
       if (error !== null) {
@@ -81,7 +81,7 @@ export default {
         this.error.msg = error.msg
       }
       else {
-        console.log(this.$store.getters.getUser)
+        this.$router.push({ path: '/' })
       }
     },
     updateView(nv) {

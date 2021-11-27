@@ -30,7 +30,7 @@ func main() {
 	api.POST("/getForm", internal.GetForm)
 
 	r.GET("/", root)
-	port := ":8080"
+	port := ":8000"
 	if os.Getenv("PORT") != "" {
 		port = os.Getenv("PORT")
 	}

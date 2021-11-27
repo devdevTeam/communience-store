@@ -18,6 +18,17 @@ func InsertNewRoom(rid, roomName, password string) error {
 	return nil
 }
 
+func InsertNewForm(rid string, colList []string) error {
+	for idx, colName := range colList {
+		query := "INSERT INTO forms (rid, col_name, col_idx) VALUES ($1, $2, $3)"
+		err := Conn.Exec(query, rid, colName, idx)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func InsertUserRoomRelation(uid, rid string, admin bool) error {
 	query := "INSERT INTO user_room_relation (uid, rid, admin) VALUES ($1, $2, $3)"
 	err := Conn.Exec(query, uid, rid, admin)

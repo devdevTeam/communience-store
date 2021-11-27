@@ -26,6 +26,7 @@ func main() {
 	api.POST("/leaveRoom", internal.LeaveRoom)
 	api.POST("/getUserInfo", internal.GetUserInfo)
 	api.POST("/getRoomList", internal.GetRoomList)
+	api.POST("/makeForm", internal.MakeForm)
 
 	r.GET("/", root)
 	port := ":8080"

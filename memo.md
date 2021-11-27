@@ -130,9 +130,36 @@ request-param
 ```
 return-param
 .error
+.rid
 ```
 ```
 curl -X POST -d 'roomname=room1' -d 'password=1111' -d 'uid={uid}' localhost:8080/api/makeRoom
+```
+
+## /form
+### /getForm
+- そのroomのformとして登録されているcolListを返す
+```
+request-param
+.rid
+```
+```
+return-param
+.colList
+```
+### /makeForm
+- そのroomのformを登録する
+```
+request-param
+.rid
+.colList(`,`で区切る)
+```
+```
+return-param
+.error
+```
+```
+curl -X POST -d 'rid={rid}' -d 'colList=名前,誕生日,得意教科,好きな食べ物,趣味' localhost:8080/api/makeForm
 ```
 
 ## /event

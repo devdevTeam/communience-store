@@ -34,6 +34,7 @@ func MakeRoom(ctx *gin.Context) {
 	}
 	resp := make(map[string]interface{})
 	resp["error"] = err
+	resp["rid"] = rid
 	res, _ := json.Marshal(resp)
 	ctx.Writer.Write(res)
 }

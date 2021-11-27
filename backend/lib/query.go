@@ -1,7 +1,5 @@
 package lib
 
-import "fmt"
-
 func InsertNewUser(uid, mail, password, userName string) error {
 	query := "INSERT INTO users (uid, mail, password, name) VALUES ($1, $2, $3, $4)"
 	err := Conn.Exec(query, uid, mail, password, userName)
@@ -44,10 +42,30 @@ func SelectUser(uid string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(row)
 	var result []string
 	for _, col := range row[0] {
 		result = append(result, col.(string))
+	}
+	return result, nil
+}
+
+func SelectUserRoomList(uid string) ([]interface{}, error) {
+	query := `select rooms.*, user_room_relation.admin
+				FROM user_room_relation 
+				INNER JOIN rooms ON user_room_relation.rid = rooms.rid AND user_room_relation.uid=$1`
+	rows, err := Conn.GetRow(query, uid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]interface{}{}
+	for _, row := range rows {
+		tmp["rid"] = row[0].(string)
+		tmp["name"] = row[1].(string)
+		tmp["password"] = row[2].(string)
+		tmp["admin"] = row[3].(bool)
+		result = append(result, tmp)
+		tmp = map[string]interface{}{}
 	}
 	return result, nil
 }

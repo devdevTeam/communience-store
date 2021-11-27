@@ -80,7 +80,16 @@ request-param
 ```
 ```
 return-param
-.rid_list
+.error
+.rooms[
+    .rid
+    .name
+    .password
+    .admin
+]
+```
+```
+curl -X POST -d 'uid={uid}' localhost:8080/api/getRoomList
 ```
 ### /joinRoom
 - userがroomに参加する時にたたく

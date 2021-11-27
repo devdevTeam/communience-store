@@ -1,6 +1,11 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  watchers: {
+    webpack: {
+      poll: true
+    }
+  },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -43,6 +48,30 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    [
+      '@nuxtjs/firebase',
+      {
+        config: {
+          apiKey: "AIzaSyCLwwsUzDcmK7jAVnuQtLKmlRnrHeI4H1E",
+          authDomain: "communience-store.firebaseapp.com",
+          projectId: "communience-store",
+          storageBucket: "communience-store.appspot.com",
+          messagingSenderId: "697278393070",
+          appId: "1:697278393070:web:670646dfe207fe104261ff",
+          measurementId: "G-2KR6FM3FSE"
+        },
+        services: {
+          auth: {
+            persistence: 'local', // default
+            initialize: {
+              onAuthStateChangedAction: 'onAuthStateChangedAction',
+              subscribeManually: false
+            },
+            ssr: false, // default
+          },
+        }
+      }
+    ]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

@@ -5,6 +5,7 @@ import (
 	"log"
 
 	firebaselib "communience-store/backend/firebase"
+	"communience-store/backend/lib"
 
 	"firebase.google.com/go/auth"
 	"github.com/gin-gonic/gin"
@@ -42,6 +43,7 @@ func createUser(mail, password, username string) error {
 		return err
 	}
 	log.Printf("Successfully created user: %#v\n", u.UserInfo)
+	lib.InsertNewUser(u.UserInfo.UID, u.UserInfo.Email, password, u.UserInfo.DisplayName)
 	return nil
 }
 

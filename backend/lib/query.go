@@ -81,6 +81,19 @@ func SelectUserRoomList(uid string) ([]interface{}, error) {
 	return result, nil
 }
 
+func SelectRoom(rid string) ([]string, error) {
+	query := "SELECT * FROM rooms WHERE rid = $1"
+	row, err := Conn.GetRow(query, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []string
+	for _, col := range row[0] {
+		result = append(result, col.(string))
+	}
+	return result, nil
+}
+
 func SelectForm(rid string) ([]string, error) {
 	query := "SELECT col_name, col_idx FROM forms WHERE rid = $1 ORDER BY col_idx"
 	rows, err := Conn.GetRow(query, rid)

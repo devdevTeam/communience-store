@@ -28,6 +28,7 @@ func main() {
 	api.POST("/getRoomList", internal.GetRoomList)
 	api.POST("/makeForm", internal.MakeForm)
 	api.POST("/getForm", internal.GetForm)
+	api.POST("/startEvent", internal.StartEvent)
 
 	r.GET("/", root)
 	port := ":8000"

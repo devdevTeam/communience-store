@@ -38,6 +38,15 @@ func InsertUserRoomRelation(uid, rid string, admin bool) error {
 	return nil
 }
 
+func InsertNewEvent(eid, password, org_uid, rid string) error {
+	query := "INSERT INTO events (eid, password, org_uid, rid) VALUES ($1, $2, $3, $4)"
+	err := Conn.Exec(query, eid, password, org_uid, rid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func DeleteUserRoomRelation(uid, rid string) error {
 	query := "DELETE FROM user_room_relation WHERE uid = $1 AND rid = $2"
 	err := Conn.Exec(query, uid, rid)

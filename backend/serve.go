@@ -30,6 +30,11 @@ func main() {
 	api.POST("/getForm", internal.GetForm)
 	api.POST("/startEvent", internal.StartEvent)
 
+	e := r.Group("/api/event")
+	internal.NewMelody()
+	e.POST("/:roomid", internal.EventWebsocket)
+	internal.DefineMelodyBehavior()
+
 	r.GET("/", root)
 	port := ":8000"
 	if os.Getenv("PORT") != "" {

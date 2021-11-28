@@ -58,6 +58,15 @@ func InsertEventCol(eid string, colList []string) error {
 	return nil
 }
 
+func InsertParticipant(eid, uid string) error {
+	query := "INSERT INTO event_col (eid, uid) VALUES ($1, $2)"
+	err := Conn.Exec(query, eid, uid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func DeleteUserRoomRelation(uid, rid string) error {
 	query := "DELETE FROM user_room_relation WHERE uid = $1 AND rid = $2"
 	err := Conn.Exec(query, uid, rid)
@@ -125,4 +134,42 @@ func SelectForm(rid string) ([]string, error) {
 		result = append(result, row[0].(string))
 	}
 	return result, nil
+}
+
+func SelectEvent(eid string) ([]string, error) {
+	// eid | org_uid | passwprd | rid
+	query := "SELECT * FROM events WHERE eid = $1"
+	row, err := Conn.GetRow(query, eid)
+	if err != nil {
+		return nil, err
+	}
+	var result []string
+	for _, col := range row[0] {
+		result = append(result, col.(string))
+	}
+	return result, nil
+}
+
+func SelectEventCol(eid string) ([]string, error) {
+	query := "SELECT col_name, col_idx FROM event_col WHERE eid = $1 ORDER BY col_idx"
+	rows, err := Conn.GetRow(query, eid)
+	if err != nil {
+		return nil, err
+	}
+	var result []string
+	for _, row := range rows {
+		result = append(result, row[0].(string))
+	}
+	return result, nil
+}
+
+func UpdateEventCol(eid string, hidden_list []bool) error {
+	for idx, hidden := range hidden_list {
+		query := "UPDATE event_col SET col_idx=$1, hidden=$2 WHERE eid=$3"
+		err := Conn.Exec(query, idx, hidden, eid)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

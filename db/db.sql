@@ -8,6 +8,18 @@ CREATE TABLE users (
     PRIMARY KEY (uid)
 );
 
+CREATE TABLE default_cards (
+  name VARCHAR(64),
+  hurigana VARCHAR(64),
+  birthday DATE,
+  instagram VARCHAR(64),
+  twitter VARCHAR(64),
+  facebook VARCHAR(64),
+  free text,
+  uid VARCHAR(32) NOT NULL,
+  FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE rooms (
     rid VARCHAR(64) NOT NULL, 
     name VARCHAR(32) NOT NULL,

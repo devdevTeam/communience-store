@@ -44,11 +44,9 @@ func createUser(mail, password, username string) error {
 	}
 	log.Printf("Successfully created user: %#v\n", u.UserInfo)
 	lib.InsertNewUser(u.UserInfo.UID, u.UserInfo.Email, password, u.UserInfo.DisplayName)
-	return nil
-}
-
-func must(err error) {
+	err = lib.InsertNewDefaultCard(u.UserInfo.UID)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
+	return nil
 }

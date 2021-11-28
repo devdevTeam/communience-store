@@ -97,13 +97,14 @@ curl -X POST -d 'uid={uid}' localhost:8080/api/getRoomList
 request-param
 .uid
 .rid
+.password
 ```
 ```
 return-param
-.done
+.error(passwordが違ったとき: isn't match password)
 ```
 ```
-curl -X POST -d 'rid={rid}' -d 'uid={uid}' -d localhost:8080/api/joinRoom
+curl -X POST -d 'rid={rid}' -d 'uid={uid}' -d 'password={password}' localhost:8080/api/joinRoom
 ```
 ### /leaveRoom
 - userがroomから抜ける時にたたく

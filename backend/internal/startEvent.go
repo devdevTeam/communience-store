@@ -27,6 +27,16 @@ func StartEvent(ctx *gin.Context) {
 		ctx.Error(err)
 		return
 	}
+	colList, err := lib.SelectForm(rid)
+	if err != nil {
+		ctx.Error(err)
+		return
+	}
+	err = lib.InsertEventCol(eid, colList)
+	if err != nil {
+		ctx.Error(err)
+		return
+	}
 	resp := make(map[string]interface{})
 	resp["error"] = err
 	res, _ := json.Marshal(resp)

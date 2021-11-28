@@ -47,6 +47,17 @@ func InsertNewEvent(eid, password, org_uid, rid string) error {
 	return nil
 }
 
+func InsertEventCol(eid string, colList []string) error {
+	for idx, colName := range colList {
+		query := "INSERT INTO event_col (eid, col_name, col_idx, hidden) VALUES ($1, $2, $3, $4)"
+		err := Conn.Exec(query, eid, colName, idx, false)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func DeleteUserRoomRelation(uid, rid string) error {
 	query := "DELETE FROM user_room_relation WHERE uid = $1 AND rid = $2"
 	err := Conn.Exec(query, uid, rid)

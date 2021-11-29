@@ -59,7 +59,7 @@ func InsertEventCol(eid string, colList []string) error {
 }
 
 func InsertParticipant(eid, uid string) error {
-	query := "INSERT INTO event_col (eid, uid) VALUES ($1, $2)"
+	query := "INSERT INTO participants (eid, uid) VALUES ($1, $2)"
 	err := Conn.Exec(query, eid, uid)
 	if err != nil {
 		return err
@@ -132,6 +132,29 @@ func SelectForm(rid string) ([]string, error) {
 	var result []string
 	for _, row := range rows {
 		result = append(result, row[0].(string))
+	}
+	return result, nil
+}
+
+func SelectUserEventList(uid string) ([]interface{}, error) {
+	query := `SELECT events.eid, rooms.name
+				FROM events 
+				INNER JOIN user_room_relation
+				ON events.rid = user_room_relation.rid
+				AND user_room_relation.uid=$1
+				INNER JOIN rooms
+				ON events.rid = rooms.rid`
+	rows, err := Conn.GetRow(query, uid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]interface{}{}
+	for _, row := range rows {
+		tmp["eid"] = row[0].(string)
+		tmp["name"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]interface{}{}
 	}
 	return result, nil
 }

@@ -179,7 +179,13 @@ request-param
 ```
 ```
 return-param
-.event_list
+.events[
+    .eid
+    .name
+]
+```
+```
+curl -X POST -d 'uid={uid}' localhost:8080/api/getEventList
 ```
 ### /startEvent
 - eventをスターとするときにたたく
@@ -195,7 +201,22 @@ return-param
 ```
 ```
 curl -X POST -d 'password=1111' -d 'org_uid=75POaUuQ97fc2ZfGB0hDOQj8llv2' -d 'rid=709689af-87bb-42f9-8f5e-1844b49596a2' localhost:8080/api/startEvent
-'''
+```
+### /joinEvent
+```
+request-param
+.eid
+.uid
+.password
+```
+```
+return-param
+.error
+```
+```
+curl -X POST -d 'password={password}' -d 'uid={uid}' -d 'eid={eid}' localhost:8080/api/joinEvent
+```
+
 ### /closeEvent
 - eventを終了する時にたたく
 ```

@@ -113,7 +113,6 @@ return-param
 .rooms[
     .rid
     .name
-    .password
     .admin
 ]
 ```

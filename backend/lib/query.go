@@ -134,7 +134,6 @@ func SelectUserRoomList(uid string) ([]interface{}, error) {
 	for _, row := range rows {
 		tmp["rid"] = row[0].(string)
 		tmp["name"] = row[1].(string)
-		tmp["password"] = row[2].(string)
 		tmp["admin"] = row[3].(bool)
 		result = append(result, tmp)
 		tmp = map[string]interface{}{}

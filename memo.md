@@ -46,29 +46,58 @@ request-param
 return-param
 .uid
 .mail
-.password
 .name
-.default_col1
-.default_col2
-.default_col3
 ```
 ```
-curl -X POST -d 'rid=76a64e86-06ed-456f-a49e-f6bdc3d03953' -d 'uid={uid}' localhost:8080/api/leaveRoom
+curl -X POST -d 'uid={uid}' localhost:8080/api/getUserInfo
 ```
-### /updateUserInfo
-- userテーブルの情報を更新する時にたたく
+
+## /default_card
+### /getDefaultCard
 ```
 request-param
 .uid
-.mail
-.pass
-.default_col1
-.default_col2
-.default_col3
 ```
 ```
 return-param
-.done
+.error
+.name
+.hurigana
+.birthday
+.instagram
+.twitter
+.facebook
+.free
+```
+```
+curl -X POST -d 'uid={uid}' localhost:8080/api/getDefaultCard
+```
+### /updateDefaultCard
+```
+request-param
+.uid
+.name
+.hurigana
+.birthday
+.instagram
+.twitter
+.facebook
+.free
+```
+```
+return-param
+.error
+```
+```
+curl -X POST
+-d 'uid={uid}'
+-d 'colName=テスト太郎'
+-d 'colHurigana=てすとたろう'
+-d 'colBirthday=2000-01-20'
+-d 'colInstagram=http://hoge.com'
+-d 'colTwitter=http://fuga.com'
+-d 'colFacebook=http://hogefuga.com'
+-d 'colFree=よろしく' localhost:8080/api/updateDefaultCard
 ```
 
 ## /room

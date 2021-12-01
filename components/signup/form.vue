@@ -96,7 +96,6 @@ export default {
         .catch((err) => error = err.code)
         this.progressCircle = false
         if (error !== null) {
-          console.log(this.signupInfo.mail, this.signupInfo.password)
           error = errorResult(error)
           this.view = true
           this.error.title = error.title

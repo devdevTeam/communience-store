@@ -1,7 +1,7 @@
 <template>
   <v-container class="grey lighten-5">
     <v-row>
-      <v-col md="4" offset-md="4" align-self="center">
+      <v-col md="5" offset-md="3" align-self="center">
         <p style="font-size: 1.9em; text-align: center; color: black;">開催中イベント一覧</p>
       </v-col>
       <v-col md="2" offset-md="2">

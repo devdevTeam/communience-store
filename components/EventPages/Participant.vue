@@ -1,12 +1,13 @@
 <template>
   <v-main>
-    <v-container fluid fill-height>
-      <v-row justify="center" align-content="center">
-        <v-col cols="12" sm="7" offset-sm="0">
-          <v-card>
-            <v-list-item-title>col list</v-list-item-title>
-            <v-list-item-title v-for="col, i in items" :key="i">{{col.colName}}{{col.hidden}}</v-list-item-title>
-          </v-card>
+    <v-container fluid fill-height class="grey lighten-5">
+      <v-row justify="center" align-content="center" v-for="col, i in items" :key="i">
+        <v-col md="4" offset-md="0" align-self="center">
+          <v-list-item-title class="-color-black">{{col.colName}}</v-list-item-title>
+        </v-col>
+        <v-col md="4" offset-md="0" align-self="center">
+          <v-list-item-title v-if="!col.hidden" class="-color-black">内容</v-list-item-title>
+          <v-btn v-else color="primary" @click="submit(i)">解答</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -16,8 +17,16 @@
 <script>
 export default {
   props: ['items'],
-  created() {
-    console.log(this.items)
+  methods: {
+    submit(i) {
+      this.items[i].hidden = !this.items[i].hidden
+    }
   }
 };
 </script>
+
+<style>
+.-color-black {
+  color: black;
+}
+</style>

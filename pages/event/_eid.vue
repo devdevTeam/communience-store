@@ -37,16 +37,10 @@ export default {
   computed: {
     eventCol() {
       this.ws.onmessage = (msg) => {
-        console.log(JSON.parse(msg.data))
         this.items = JSON.parse(msg.data).colList;
       };
       return this.items
     },
   },
-  watch: {
-    eventCol() {
-      console.log(this.items)
-    }
-  }
 };
 </script>

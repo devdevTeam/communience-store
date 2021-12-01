@@ -181,6 +181,7 @@ request-param
 return-param
 .events[
     .eid
+    .org_uid
     .name
 ]
 ```

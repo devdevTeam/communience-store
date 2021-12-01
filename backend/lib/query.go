@@ -137,7 +137,7 @@ func SelectForm(rid string) ([]string, error) {
 }
 
 func SelectUserEventList(uid string) ([]interface{}, error) {
-	query := `SELECT events.eid, rooms.name
+	query := `SELECT events.eid, events.org_uid, rooms.name
 				FROM events 
 				INNER JOIN user_room_relation
 				ON events.rid = user_room_relation.rid
@@ -152,7 +152,8 @@ func SelectUserEventList(uid string) ([]interface{}, error) {
 	tmp := map[string]interface{}{}
 	for _, row := range rows {
 		tmp["eid"] = row[0].(string)
-		tmp["name"] = row[1].(string)
+		tmp["org_uid"] = row[1].(string)
+		tmp["name"] = row[2].(string)
 		result = append(result, tmp)
 		tmp = map[string]interface{}{}
 	}
@@ -173,23 +174,27 @@ func SelectEvent(eid string) ([]string, error) {
 	return result, nil
 }
 
-func SelectEventCol(eid string) ([]string, error) {
-	query := "SELECT col_name, col_idx FROM event_col WHERE eid = $1 ORDER BY col_idx"
+func SelectEventCol(eid string) ([]interface{}, error) {
+	query := "SELECT col_name, hidden FROM event_col WHERE eid = $1 ORDER BY col_idx"
 	rows, err := Conn.GetRow(query, eid)
 	if err != nil {
 		return nil, err
 	}
-	var result []string
+	var result []interface{}
+	tmp := map[string]interface{}{}
 	for _, row := range rows {
-		result = append(result, row[0].(string))
+		tmp["colName"] = row[0].(string)
+		tmp["hidden"] = row[1].(bool)
+		result = append(result, tmp)
+		tmp = map[string]interface{}{}
 	}
 	return result, nil
 }
 
 func UpdateEventCol(eid string, hidden_list []bool) error {
 	for idx, hidden := range hidden_list {
-		query := "UPDATE event_col SET col_idx=$1, hidden=$2 WHERE eid=$3"
-		err := Conn.Exec(query, idx, hidden, eid)
+		query := "UPDATE event_col SET hidden=$1 WHERE eid=$2 AND col_idx=$3"
+		err := Conn.Exec(query, hidden, eid, idx)
 		if err != nil {
 			return err
 		}

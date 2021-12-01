@@ -39,6 +39,12 @@ type Msg struct {
 func eventHandler(s1 *melody.Session, msg []byte) {
 	var messageObj Msg
 	json.Unmarshal(msg, &messageObj)
+
+	err := lib.UpdateEventCol(messageObj.Eid, messageObj.Hidden)
+	if err != nil {
+		s1.Write([]byte(err.Error()))
+	}
+
 	resp, err := FetchEventCol(messageObj.Eid)
 	if err != nil {
 		s1.Write([]byte(err.Error()))

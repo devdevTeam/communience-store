@@ -155,7 +155,6 @@
 
 <script>
 import post from "@/lib/post.js"
-  // var User_info;
   export default {
     
     created(){
@@ -163,7 +162,6 @@ import post from "@/lib/post.js"
       params.append('uid',this.$store.getters.getUser.uid)
       post("/getDefaultCard",params).then((res) => { 
         console.log(res);
-        // const User_info = res.data; 
       })
     },
     methods: {  

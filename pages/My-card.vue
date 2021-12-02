@@ -36,13 +36,13 @@
               <v-card-title class = "d-flex flex-column align-center justify-space-between">
                 <div class="d-flex justify-between">
                 <div class="text-h4 mb-2">
-                  田中太郎
+                  {{info.name}}
                 </div>
                   
                 </div>
                 <div class="d-flex justify-space-between">
                     <div class="text-h6 font-weight-regular grey--text">
-                      ふりがな
+                      {{info.hurigana}}
                     </div> 
                 </div>
                 
@@ -61,7 +61,8 @@
               </div>
 
                 <div class="introduction"> 自己紹介をしてみてください <br>
-                  ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</div>
+                  {{info.free}}
+                  </div>
               </div>
 
               <v-divider class="mt-6 mx-4"></v-divider>
@@ -69,20 +70,20 @@
               <v-card-text>
 
                 <v-chip
-                  class="mr-2 mb-2"
+                  class="mr-2 mb-2" @click="toLinck(info.twitter)"
                 >
                   <v-icon left>
                     mdi-twitter
                   </v-icon>
                   Twitter
                 </v-chip>
-                <v-chip class="mr-2 mb-2">
+                <v-chip class="mr-2 mb-2" @click="toLinck(info.instagram)">
                   <v-icon left>
                     mdi-instagram
                   </v-icon>
                   Instagram
                 </v-chip>
-                <v-chip class="mr-2 mb-2"
+                <v-chip class="mr-2 mb-2" @click="toLinck(info.facebook)"
                 >
                   <v-icon left>
                     mdi-facebook
@@ -157,11 +158,13 @@
 import post from "@/lib/post.js"
   export default {
     
-    created(){
+    beforeCreate(){
+      console.log(this.$store.getters.getUser.uid);
       let params = new URLSearchParams()
       params.append('uid',this.$store.getters.getUser.uid)
       post("/getDefaultCard",params).then((res) => { 
         console.log(res);
+        this.info = res.data;
       })
     },
     methods: {  
@@ -173,6 +176,9 @@ import post from "@/lib/post.js"
       },
       lights () {
         alert('Toggling lights...')
+      },
+      toLinck(url){
+      window.open(url, '_blank')
       },
     },
      data: () => ({
@@ -190,6 +196,10 @@ import post from "@/lib/post.js"
           title: '親しい友だち',
         },
       ],
+      info: {
+        name: null,
+      },
+
     }),
   }
 </script>

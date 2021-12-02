@@ -1,11 +1,19 @@
 const state = () => ({
   user: null,
+  event_ws: null,
+  event_org: null,
 });
 
 const mutations = {
   SET_USER(state, user) {
     state.user = user;
   },
+  connect_event_ws(state, eid) {
+    state.event_ws = new WebSocket(`ws://localhost:8000/api/event/${eid}`)
+  },
+  set_event_org(state, uid) {
+    state.event_org = uid
+  }
 };
 
 const actions = {
@@ -33,6 +41,12 @@ const getters = {
   getUser(state) {
     return state.user;
   },
+  getEventWs(state) {
+    return state.event_ws;
+  },
+  getEventOrg(state) {
+    return state.event_org;
+  }
 };
 
 export default {

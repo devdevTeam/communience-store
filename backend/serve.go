@@ -30,6 +30,14 @@ func main() {
 	api.POST("/leaveRoom", internal.LeaveRoom)
 	api.POST("/makeForm", internal.MakeForm)
 	api.POST("/getForm", internal.GetForm)
+	api.POST("/startEvent", internal.StartEvent)
+	api.POST("/getEventList", internal.GetEventList)
+
+	e := r.Group("/api/event")
+	internal.NewMelody()
+	e.POST("/joinEvent", internal.JoinEvent)
+	e.GET("/:eid", internal.EventWebsocket)
+	internal.DefineMelodyBehavior()
 
 	r.GET("/", root)
 	port := ":8000"

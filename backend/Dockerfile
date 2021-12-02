@@ -17,4 +17,4 @@ ENV DB_SSL disable
 RUN go get -u github.com/cosmtrek/air
 EXPOSE 8000
 
-CMD ["air"]
+# CMD ["air"]

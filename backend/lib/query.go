@@ -52,6 +52,35 @@ func InsertUserRoomRelation(uid, rid string, admin bool) error {
 	return nil
 }
 
+func InsertNewEvent(eid, password, org_uid, rid string) error {
+	query := "INSERT INTO events (eid, password, org_uid, rid) VALUES ($1, $2, $3, $4)"
+	err := Conn.Exec(query, eid, password, org_uid, rid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func InsertEventCol(eid string, colList []string) error {
+	for idx, colName := range colList {
+		query := "INSERT INTO event_col (eid, col_name, col_idx, hidden) VALUES ($1, $2, $3, $4)"
+		err := Conn.Exec(query, eid, colName, idx, false)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func InsertParticipant(eid, uid string) error {
+	query := "INSERT INTO participants (eid, uid) VALUES ($1, $2)"
+	err := Conn.Exec(query, eid, uid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func DeleteUserRoomRelation(uid, rid string) error {
 	query := "DELETE FROM user_room_relation WHERE uid = $1 AND rid = $2"
 	err := Conn.Exec(query, uid, rid)
@@ -105,7 +134,6 @@ func SelectUserRoomList(uid string) ([]interface{}, error) {
 	for _, row := range rows {
 		tmp["rid"] = row[0].(string)
 		tmp["name"] = row[1].(string)
-		tmp["password"] = row[2].(string)
 		tmp["admin"] = row[3].(bool)
 		result = append(result, tmp)
 		tmp = map[string]interface{}{}
@@ -137,6 +165,72 @@ func SelectForm(rid string) ([]string, error) {
 		result = append(result, row[0].(string))
 	}
 	return result, nil
+}
+
+func SelectUserEventList(uid string) ([]interface{}, error) {
+	query := `SELECT events.eid, events.org_uid, rooms.name
+				FROM events 
+				INNER JOIN user_room_relation
+				ON events.rid = user_room_relation.rid
+				AND user_room_relation.uid=$1
+				INNER JOIN rooms
+				ON events.rid = rooms.rid`
+	rows, err := Conn.GetRow(query, uid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]interface{}{}
+	for _, row := range rows {
+		tmp["eid"] = row[0].(string)
+		tmp["org_uid"] = row[1].(string)
+		tmp["name"] = row[2].(string)
+		result = append(result, tmp)
+		tmp = map[string]interface{}{}
+	}
+	return result, nil
+}
+
+func SelectEvent(eid string) ([]string, error) {
+	// eid | org_uid | passwprd | rid
+	query := "SELECT * FROM events WHERE eid = $1"
+	row, err := Conn.GetRow(query, eid)
+	if err != nil {
+		return nil, err
+	}
+	var result []string
+	for _, col := range row[0] {
+		result = append(result, col.(string))
+	}
+	return result, nil
+}
+
+func SelectEventCol(eid string) ([]interface{}, error) {
+	query := "SELECT col_name, hidden FROM event_col WHERE eid = $1 ORDER BY col_idx"
+	rows, err := Conn.GetRow(query, eid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]interface{}{}
+	for _, row := range rows {
+		tmp["colName"] = row[0].(string)
+		tmp["hidden"] = row[1].(bool)
+		result = append(result, tmp)
+		tmp = map[string]interface{}{}
+	}
+	return result, nil
+}
+
+func UpdateEventCol(eid string, hidden_list []bool) error {
+	for idx, hidden := range hidden_list {
+		query := "UPDATE event_col SET hidden=$1 WHERE eid=$2 AND col_idx=$3"
+		err := Conn.Exec(query, hidden, eid, idx)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func UpdateDefaultCard(uid, name, hurigana, birthday, instagram, twitter, facebook, free string) error {

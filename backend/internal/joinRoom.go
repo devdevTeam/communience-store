@@ -13,7 +13,7 @@ func JoinRoom(ctx *gin.Context) {
 	uid := req.PostFormValue("uid")
 	rid := req.PostFormValue("rid")
 	password := req.PostFormValue("password")
-	check, err := CheckRoomPass(rid, password)
+	check, haveForm, err := CheckRoomPass(rid, password)
 	if err != nil {
 		ctx.Error(err)
 		return
@@ -24,8 +24,16 @@ func JoinRoom(ctx *gin.Context) {
 			ctx.Error(err)
 			return
 		}
+		if haveForm {
+			err = lib.InsertNewCardValue(uid, rid)
+			if err != nil {
+				ctx.Error(err)
+				return
+			}
+		}
 		resp := make(map[string]interface{})
 		resp["error"] = err
+		resp["haveForm"] = haveForm
 		res, _ := json.Marshal(resp)
 		ctx.Writer.Write(res)
 	} else {
@@ -36,15 +44,16 @@ func JoinRoom(ctx *gin.Context) {
 	}
 }
 
-func CheckRoomPass(rid, password string) (bool, error) {
+func CheckRoomPass(rid, password string) (bool, bool, error) {
 	roomInfo, err := lib.SelectRoom(rid)
+	haveForm := roomInfo[3].(bool)
 	if err != nil {
-		return false, err
+		return false, haveForm, err
 	}
 
 	if roomInfo[2] == password {
-		return true, nil
+		return true, haveForm, nil
 	} else {
-		return false, nil
+		return false, haveForm, nil
 	}
 }

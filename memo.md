@@ -119,6 +119,23 @@ return-param
 ```
 curl -X POST -d 'uid={uid}' localhost:8080/api/getRoomList
 ```
+### /getRoomUsers
+- roomに所属するuser一覧
+```
+request-param
+.rid
+```
+```
+return-param
+.error
+.users[
+    .uid
+    .name
+]
+```
+```
+curl -X POST -d 'rid={rid}' localhost:8080/api/getRoomUsers
+```
 ### /joinRoom
 - userがroomに参加する時にたたく
 ```
@@ -130,6 +147,7 @@ request-param
 ```
 return-param
 .error(passwordが違ったとき: isn't match password)
+.haveForm
 ```
 ```
 curl -X POST -d 'rid={rid}' -d 'uid={uid}' -d 'password={password}' localhost:8080/api/joinRoom
@@ -155,6 +173,7 @@ request-param
 .roomname
 .password
 .uid
+.haveForm
 ```
 ```
 return-param
@@ -162,7 +181,41 @@ return-param
 .rid
 ```
 ```
-curl -X POST -d 'roomname=room1' -d 'password=1111' -d 'uid={uid}' localhost:8080/api/makeRoom
+curl -X POST -d 'roomname=room1' -d 'password=1111' -d 'uid={uid}' -d 'haveForm={bool}' localhost:8080/api/makeRoom
+```
+
+## /card_value
+### /getCardValue
+- roomのformのuserのデータを取得
+```
+request-param
+.uid
+.rid
+```
+```
+return-param
+.error
+.cardValue [
+    (値のリスト)
+]
+```
+```
+curl -X POST -d 'uid={uid}' -d 'rid={rid}' localhost:8080/api/getCardValue
+```
+### /updateCardValue
+- card_valueを更新
+```
+request-param
+.uid
+.rid
+.valueList(`,`で区切る)
+```
+```
+return-param
+.error
+```
+```
+curl -X POST -d 'uid={uid}' -d 'rid={rid}' -d 'valueList=田中太郎,お米' localhost:8080/api/updateCardValue
 ```
 
 ## /form
@@ -175,8 +228,7 @@ request-param
 ```
 return-param
 .colList[
-    {col_name},
-    {col_name}
+    (項目の名前の配列)
 ]
 .error
 ```

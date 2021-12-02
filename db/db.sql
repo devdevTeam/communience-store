@@ -24,6 +24,7 @@ CREATE TABLE rooms (
     rid VARCHAR(64) NOT NULL, 
     name VARCHAR(32) NOT NULL,
     password VARCHAR(32) NOT NULL,
+    have_form BOOLEAN,
     PRIMARY KEY (rid)
 );
 
@@ -54,7 +55,7 @@ CREATE TABLE events (
 CREATE TABLE event_col (
     eid VARCHAR(64) NOT NULL,
     col_name VARCHAR(32) NOT NULL,
-    col_idx VARCHAR(32) NOT NULL,
+    col_idx INT NOT NULL,
     hidden BOOLEAN NOT NULL,
     FOREIGN KEY (eid) REFERENCES events(eid) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -65,3 +66,12 @@ CREATE TABLE participants (
     FOREIGN KEY (eid) REFERENCES events(eid) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE card_value (
+    uid VARCHAR(32) NOT NULL,
+    rid VARCHAR(64) NOT NULL,
+    value VARCHAR(128),
+    col_idx INT NOT NULL,
+    FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (rid) REFERENCES rooms(rid) ON DELETE CASCADE ON UPDATE CASCADE
+)

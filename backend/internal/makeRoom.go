@@ -4,6 +4,7 @@ import (
 	"communience-store/backend/lib"
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -15,6 +16,8 @@ func MakeRoom(ctx *gin.Context) {
 	uid := req.PostFormValue("uid")
 	roomName := req.PostFormValue("roomname")
 	password := req.PostFormValue("password")
+	haveForm := req.PostFormValue("haveForm")
+	BhaveForm, _ := strconv.ParseBool(haveForm)
 	u, err := uuid.NewRandom()
 	if err != nil {
 		fmt.Println(err)
@@ -22,7 +25,7 @@ func MakeRoom(ctx *gin.Context) {
 		return
 	}
 	rid := u.String()
-	err = lib.InsertNewRoom(rid, roomName, password)
+	err = lib.InsertNewRoom(rid, roomName, password, BhaveForm)
 	if err != nil {
 		ctx.Error(err)
 		return

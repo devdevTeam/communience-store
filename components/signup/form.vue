@@ -85,6 +85,7 @@ export default {
       this.progressCircle = true
       let res = await post("/signup", params)
       if (res.data.error !== null) {
+        console.log(res.data.error)
         this.progressCircle = false
         this.view = true
         this.error.title = "ユーザ登録に失敗しました"

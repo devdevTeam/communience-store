@@ -183,6 +183,24 @@ return-param
 ```
 curl -X POST -d 'roomname=room1' -d 'password=1111' -d 'uid={uid}' -d 'haveForm={bool}' localhost:8080/api/makeRoom
 ```
+### /searchRoom
+- userがroomを作る
+```
+request-param
+.name
+.rid
+```
+```
+return-param
+.error
+.rooms[
+    .name
+    .rid
+]
+```
+```
+curl -X POST -d 'name=room1' -d 'rid={rid}' localhost:8080/api/makeRoom
+```
 
 ## /card_value
 ### /getCardValue

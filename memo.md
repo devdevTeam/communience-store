@@ -205,6 +205,7 @@ curl -X POST -d 'name=room1' -d 'rid={rid}' localhost:8080/api/searchRoom
 - hashのチェック
 ```
 request-param
+.uid
 .hash
 ```
 ```
@@ -216,7 +217,7 @@ return-param
 ]
 ```
 ```
-curl -X POST -d 'hash={hash}' localhost:8080/api/checkHash
+curl -X POST -d 'uid={uid}' -d 'hash={hash}' localhost:8080/api/checkHash
 ```
 
 ## /card_value

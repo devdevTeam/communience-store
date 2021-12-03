@@ -218,7 +218,7 @@ func SelectRoom(rid string) ([]interface{}, error) {
 
 func SelectRoomWithHash(hash string) ([]string, error) {
 	// |rid|name|password|have_form|hash|
-	query := "SELECT rid, name FROM rooms WHERE hash = $1"
+	query := "SELECT rid, password FROM rooms WHERE hash = $1"
 	row, err := Conn.GetRow(query, hash)
 	if err != nil {
 		return nil, err

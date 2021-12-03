@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import InputURL from '../components/Room/inputURL.vue';
-import SearchRoom from '../components/Room/searchRoom.vue'
+import InputURL from '../../components/Room/inputURL.vue';
+import SearchRoom from '../../components/Room/searchRoom.vue'
 
 export default {
   components: {

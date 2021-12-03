@@ -7,35 +7,45 @@
         </v-col>
         <v-col md="4" offset-md="0" align-self="center">
           <v-text-field
-            v-model="value"
+            v-model="values[i]"
+            :label="col"
             required
             light
           ></v-text-field>
         </v-col>
+      </v-row>
+      <v-row justify="center" align-content="center">
+        <v-btn x-large color="primaly" @click="updateCardValue">submit</v-btn>
       </v-row>
     </v-container>
   </v-main>
 </template>
 
 <script>
+import post from '@/lib/post.js'
+
 export default {
   props: ['colList'],
+  asyncData() {
+    let values = []
+    for (let i = 0; i < this.colList.length; i++) {
+      values.push(null)
+    }
+    return {
+      values: values
+    }
+  },
   methods: {
-    updateCol() {
-      let hidden_list = [];
-      for (let i = 0; i < this.items.length; i++) {
-        hidden_list.push(this.items[i].hidden);
-      }
-      let msg = JSON.stringify({
-        uid: this.$store.getters.getUser.uid,
-        eid: this.$route.params.eid,
-        hidden: hidden_list,
-      });
-      let ws = this.$store.getters.getEventWs;
-      ws.send(msg);
-    },
-    changeHidden(i) {
-      this.items[i].hidden = !this.items[i].hidden;
+    updateCardValue() {
+      let params = new URLSearchParams()
+      params.append('uid', this.$store.getters.getUser.uid)
+      params.append('rid', this.$route.params.rid)
+      params.append('valueList', this.values.join(','))
+      post('/updateCardValue', params).then((res) => {
+        if (res.data.error != null) {
+          console.error(res.data.error);
+        }
+      })
     },
   },
 };

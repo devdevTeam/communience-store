@@ -3,6 +3,7 @@
     <faildDialog :text="'パスワードが違います'" :dialog="faild" @closeDialog="closeDialog"></faildDialog>
     <div id="content">
       <h1 style="text-align: center" class="-color-black">パスワードを入力</h1>
+      <h5 style="text-align: center" class="-color-black">Room ID : {{rid}}</h5>
       <v-col cols="12" md="10" offset-md="1">
         <v-text-field
           v-model="password"

@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col col="12" md="10" offset-md="1">
+    <v-col cols="12" md="10" offset-md="1">
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field
           v-model="URL"
@@ -14,6 +14,7 @@
             :disabled="valid"
             color="primary"
             class="-margin-bottom"
+            @click="submitUrl"
           >
             submit
           </v-btn>
@@ -42,6 +43,17 @@ export default {
       }
     },
   },
+  methods: {
+    submitUrl() {
+      let uri = this.URL.split("/joinRoom/")[1]
+      if (uri == undefined) {
+        this.$router.push({ name: "joinRoom-uri", params: { uri: "faild" }})
+      }
+      else {
+        this.$router.push({ name: "joinRoom-uri", params: { uri: uri }})
+      }
+    }
+  }
 };
 </script>
 

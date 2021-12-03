@@ -317,3 +317,28 @@ func UpdateCardValue(uid, rid string, value_list []string) error {
 	}
 	return nil
 }
+
+func SearchRoom(name, rid string) ([]interface{}, error) {
+	query := ""
+	var err error
+	var rows [][]interface{}
+	if name != "" {
+		query = "SELECT name, rid FROM rooms WHERE name = $1"
+		rows, err = Conn.GetRow(query, name)
+	} else {
+		query = "SELECT name, rid FROM rooms WHERE rid = $1"
+		rows, err = Conn.GetRow(query, rid)
+	}
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]string{}
+	for _, row := range rows {
+		tmp["name"] = row[0].(string)
+		tmp["rid"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]string{}
+	}
+	return result, nil
+}

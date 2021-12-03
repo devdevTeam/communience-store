@@ -26,6 +26,7 @@ func main() {
 	api.POST("/updateDefaultCard", internal.UpdateDefaultCard)
 	api.POST("/makeRoom", internal.MakeRoom)
 	api.POST("/getRoomList", internal.GetRoomList)
+	api.POST("/searchRoom", internal.SearchRoom)
 	api.POST("/getRoomUsers", internal.GetRoomUsers)
 	api.POST("/getCardValue", internal.GetCardValue)
 	api.POST("/updateCardValue", internal.UpdateCardValue)

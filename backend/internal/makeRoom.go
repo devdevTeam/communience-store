@@ -25,7 +25,10 @@ func MakeRoom(ctx *gin.Context) {
 		return
 	}
 	rid := u.String()
-	err = lib.InsertNewRoom(rid, roomName, password, BhaveForm)
+	plain := rid + password
+	hash, err := lib.Encryption(plain)
+	Shash := string(hash)
+	err = lib.InsertNewRoom(rid, roomName, password, BhaveForm, Shash)
 	if err != nil {
 		ctx.Error(err)
 		return

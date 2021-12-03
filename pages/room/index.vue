@@ -35,7 +35,7 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item link>
-                <v-list-item-title>roomに参加</v-list-item-title>
+                <v-list-item-title @click="toJoin">roomに参加</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-card>
@@ -85,6 +85,9 @@ export default {
     selectRoom(rid) {
       this.$router.push({ name: "room-rid", params: { rid: rid } });
     },
+    toJoin() {
+      this.$router.push("/joinRoom")
+    }
   },
 };
 </script>

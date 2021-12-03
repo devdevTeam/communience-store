@@ -31,6 +31,7 @@ func main() {
 	api.POST("/getCardValue", internal.GetCardValue)
 	api.POST("/updateCardValue", internal.UpdateCardValue)
 	api.POST("/joinRoom", internal.JoinRoom)
+	api.POST("/checkHash", internal.CheckHash)
 	api.POST("/leaveRoom", internal.LeaveRoom)
 	api.POST("/makeForm", internal.MakeForm)
 	api.POST("/getForm", internal.GetForm)

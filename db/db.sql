@@ -25,6 +25,7 @@ CREATE TABLE rooms (
     name VARCHAR(32) NOT NULL,
     password VARCHAR(32) NOT NULL,
     have_form BOOLEAN,
+    hash VARCHAR(64) NOT NULL,
     PRIMARY KEY (rid)
 );
 

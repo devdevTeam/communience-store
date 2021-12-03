@@ -23,9 +23,9 @@ func InsertNewDefaultCard(uid string) error {
 	return nil
 }
 
-func InsertNewRoom(rid, roomName, password string, have_form bool) error {
-	query := "INSERT INTO rooms (rid, name, password, have_form) VALUES ($1, $2, $3, $4)"
-	err := Conn.Exec(query, rid, roomName, password, have_form)
+func InsertNewRoom(rid, roomName, password string, have_form bool, hash string) error {
+	query := "INSERT INTO rooms (rid, name, password, have_form, hash) VALUES ($1, $2, $3, $4, $5)"
+	err := Conn.Exec(query, rid, roomName, password, have_form, hash)
 	if err != nil {
 		return err
 	}
@@ -199,7 +199,7 @@ func SelectRoomUsers(rid string) ([]interface{}, error) {
 }
 
 func SelectRoom(rid string) ([]interface{}, error) {
-	// |rid|name|password|have_form|
+	// |rid|name|password|have_form|hash|
 	query := "SELECT * FROM rooms WHERE rid = $1"
 	row, err := Conn.GetRow(query, rid)
 	if err != nil {
@@ -210,6 +210,22 @@ func SelectRoom(rid string) ([]interface{}, error) {
 		if idx == 3 {
 			result = append(result, col.(bool))
 		} else {
+			result = append(result, col.(string))
+		}
+	}
+	return result, nil
+}
+
+func SelectRoomWithHash(hash string) ([]string, error) {
+	// |rid|name|password|have_form|hash|
+	query := "SELECT rid, name FROM rooms WHERE hash = $1"
+	row, err := Conn.GetRow(query, hash)
+	if err != nil {
+		return nil, err
+	}
+	var result []string
+	if len(row) != 0 {
+		for _, col := range row[0] {
 			result = append(result, col.(string))
 		}
 	}

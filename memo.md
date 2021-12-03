@@ -184,7 +184,7 @@ return-param
 curl -X POST -d 'roomname=room1' -d 'password=1111' -d 'uid={uid}' -d 'haveForm={bool}' localhost:8080/api/makeRoom
 ```
 ### /searchRoom
-- userがroomを作る
+- roomの検索(name or rid)
 ```
 request-param
 .name
@@ -199,7 +199,24 @@ return-param
 ]
 ```
 ```
-curl -X POST -d 'name=room1' -d 'rid={rid}' localhost:8080/api/makeRoom
+curl -X POST -d 'name=room1' -d 'rid={rid}' localhost:8080/api/searchRoom
+```
+### /searchRoom
+- hashのチェック
+```
+request-param
+.hash
+```
+```
+return-param
+.error
+.roomsInfo[
+    .rid
+    .name
+]
+```
+```
+curl -X POST -d 'hash={hash}' localhost:8080/api/checkHash
 ```
 
 ## /card_value

@@ -2,7 +2,7 @@
   <div>
     <v-container class="grey lighten-5">
       <v-row v-for="(two_rooms, i) in roomList" :key="i">
-        <v-col md="6" v-for="(room, j) in two_rooms" :key="j">
+        <v-col cols="12" md="6" v-for="(room, j) in two_rooms" :key="j">
           <v-btn
             block
             color="black"
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     selectRoom(rid) {
-      this.$router.push({ name: "room-rid", params: { rid: rid } });
+      this.$emit('selectRoom', rid)
     },
   },
 };

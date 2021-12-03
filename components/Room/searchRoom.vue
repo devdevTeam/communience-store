@@ -26,26 +26,33 @@
       <v-col cols="12" md="1"></v-col>
     </v-row>
     <v-row v-if="search_res" justify="center" align="center">
-      <roomList :rooms="rooms"></roomList>
+      <v-col cols="12" md="12">
+        <roomList @selectRoom="selectRoom" :rooms="rooms"></roomList>
+      </v-col>
     </v-row>
+    <joinWithPass @closeModal="show=false" v-if="show" :rid="selected_rid"></joinWithPass>
   </div>
 </template>
 
 <script>
 import roomList from "./roomList.vue";
 import post from "@/lib/post.js";
+import joinWithPass from "./joinWithPass.vue"
 
 export default {
   components: {
     roomList,
+    joinWithPass,
   },
   data() {
     return {
+      show: false,
       valid: true,
       name: "",
       rid: "",
       rooms: [],
       search_res: false,
+      selected_rid: null,
     };
   },
   watch: {
@@ -64,7 +71,7 @@ export default {
       }
     },
     rooms() {
-      if (rooms.length != 0) {
+      if (this.rooms.length != 0) {
         this.search_res = true;
       } else {
         this.search_res = false;
@@ -73,19 +80,22 @@ export default {
   },
   methods: {
     search() {
-      if (this.name.length === 0) {
-        this.name = null;
-      }
-      if (this.rid.length === 0) {
-        this.rid = null;
-      }
       let params = new URLSearchParams();
       params.append("name", this.name);
       params.append("rid", this.rid);
       post("/searchRoom", params).then((res) => {
-        this.rooms = res.data.rooms;
+        if (res.data.rooms != null) {
+          this.rooms = res.data.rooms;
+        }
+        else {
+          this.rooms = []
+        }
       });
     },
+    selectRoom(rid) {
+      this.selected_rid = rid
+      this.show = true
+    }
   },
 };
 </script>

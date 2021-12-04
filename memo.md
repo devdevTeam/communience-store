@@ -211,10 +211,8 @@ request-param
 ```
 return-param
 .error
-.roomsInfo[
-    .rid
-    .name
-]
+.rid
+.haveForm
 ```
 ```
 curl -X POST -d 'uid={uid}' -d 'hash={hash}' localhost:8080/api/checkHash

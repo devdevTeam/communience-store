@@ -51,7 +51,7 @@ func InsertNewCardValue(uid, rid string) error {
 	}
 	for idx := int64(0); idx < num[0][0].(int64); idx++ {
 		query := "INSERT INTO card_value (uid, rid, col_idx, value) VALUES ($1, $2, $3, $4)"
-		err := Conn.Exec(query, uid, rid, idx, nil)
+		err := Conn.Exec(query, uid, rid, idx, "")
 		if err != nil {
 			return err
 		}

@@ -30,6 +30,7 @@ func CheckHash(ctx *gin.Context) {
 		return
 	}
 	resp["error"] = msg
+	resp["rid"] = roomInfo[0]
 	resp["haveForm"] = haveForm
 	res, _ := json.Marshal(resp)
 	ctx.Writer.Write(res)

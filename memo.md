@@ -101,6 +101,23 @@ curl -X POST
 ```
 
 ## /room
+### /getRoomInfo
+- roomの情報
+```
+request-param
+.rid
+```
+```
+return-param
+.error
+.rid
+.name
+.haveForm
+.hash
+```
+```
+curl -X POST -d 'uid={uid}' -d 'rid={rid}' localhost:8080/api/getRoomInfo
+```
 ### /getRoomList
 - ログインしているuserが所属しているroom一覧
 ```
@@ -201,7 +218,7 @@ return-param
 ```
 curl -X POST -d 'name=room1' -d 'rid={rid}' localhost:8080/api/searchRoom
 ```
-### /searchRoom
+### /checkHash
 - hashのチェック
 ```
 request-param
@@ -216,6 +233,20 @@ return-param
 ```
 ```
 curl -X POST -d 'uid={uid}' -d 'hash={hash}' localhost:8080/api/checkHash
+```
+### /getRoomAdmin
+- roomのAdmin確認
+```
+request-param
+.uid
+.rid
+```
+```
+return-param
+.admin
+```
+```
+curl -X POST -d 'uid={uid}' -d 'rid={rid}' localhost:8080/api/getRoomAdmin
 ```
 
 ## /card_value

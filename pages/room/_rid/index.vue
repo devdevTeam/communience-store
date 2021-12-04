@@ -23,6 +23,7 @@
                 color="indigo"
                 v-bind="attrs"
                 v-on="on"
+                v-if="admin"
               >
                 <v-icon dark> mdi-plus </v-icon>
               </v-btn>
@@ -31,11 +32,11 @@
           <v-card>
             <v-list>
               <v-list-item link>
-                <v-list-item-title>roomを作成</v-list-item-title>
+                <v-list-item-title @click="toStartEvent">イベントを開催</v-list-item-title>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item link>
-                <v-list-item-title>roomに参加</v-list-item-title>
+                <v-list-item-title @click="show=true">Roomに招待</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-card>
@@ -58,16 +59,23 @@
         </v-col>
       </v-row>
     </v-container>
+    <presentInviteUrl @closeModal="show=false" v-if="show" :rid="$route.params.rid"></presentInviteUrl>
   </div>
 </template>
 
 <script>
 import post from "@/lib/post.js";
+import presentInviteUrl from '@/components/Room/presentInviteUrl.vue'
 
 export default {
+  components: {
+    presentInviteUrl
+  },
   data() {
     return {
       userList: [],
+      admin: false,
+      show: false,
     };
   },
   beforeCreate() {
@@ -80,11 +88,24 @@ export default {
         this.userList.push(result);
       }
     });
+    params.append("uid", this.$store.getters.getUser.uid)
+    post("/getRoomAdmin", params).then((res) => {
+      console.log(res);
+      if (res.data.error != null) {
+        console.error(res.data.error)
+      }
+      if (res.data.admin) {
+        this.admin = true
+      }
+    })
   },
   methods: {
     selectUser(uid) {
       let rid = this.$route.params.rid
       this.$router.push({ name: "room-rid-uid", params: { rid: rid, uid } });
+    },
+    toStartEvent() {
+      this.$router.push("/startEvent")
     },
   },
 };

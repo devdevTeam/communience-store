@@ -18,14 +18,14 @@
             x-large
             outlined
             tile
-            @click="showSetPass(room.rid)"
+            @click="showSetPass(room.rid, room.name)"
           >
             {{ room.name }}
           </v-btn>
         </v-col>
       </v-row>
     </v-container>
-    <setPassword @closeModal="show=false" v-if="show" :rid="selected_rid"></setPassword>
+    <setPassword @closeModal="show=false" v-if="show" :rid="selected_rid" :name="selected_name"></setPassword>
   </div>
 </template>
 
@@ -42,12 +42,25 @@ export default {
       roomList: [],
       show: false,
       selected_rid: null,
+      selected_name: null,
     };
   },
-  beforeCreate() {
+  async beforeCreate() {
     let params = new URLSearchParams();
     params.append("uid", this.$store.getters.getUser.uid);
-    post("/getRoomList", params).then((res) => {
+    await post("/getRoomList", params).then((res) => {
+      if (this.$nuxt.context.from.path.match("/room")) {
+        let from_rid = this.$nuxt.context.from.path.split("/room/")[1]
+        for (let i = 0; i < res.data.rooms.length; i++) {
+          if (res.data.rooms[i].rid === from_rid) {
+            this.selected_rid = from_rid
+            this.selected_name = res.data.rooms[i].name
+            this.show = true
+            this.roomList.push([res.data.rooms[i]])
+            return
+          }
+        }
+      }
       let tmp = [];
       for (let i = 0; i < res.data.rooms.length; i++) {
         if (res.data.rooms[i].admin) {
@@ -64,8 +77,9 @@ export default {
     });
   },
   methods: {
-    showSetPass(rid) {
+    showSetPass(rid, name) {
       this.selected_rid = rid
+      this.selected_name = name
       this.show = true
     }
   }

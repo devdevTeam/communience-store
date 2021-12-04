@@ -49,7 +49,8 @@ export default {
     return {
       colList: colList,
       values: values,
-      faild: false
+      faild: false,
+      from: ctx.from
     }
   },
   created() {
@@ -64,11 +65,16 @@ export default {
       params.append('rid', this.$route.params.rid)
       params.append('valueList', this.values.join(','))
       post('/updateCardValue', params).then((res) => {
+        console.log(this.from)
         if (res.data.error != null) {
           console.error(res.data.error);
           return
         }
-        this.$router.push(`/room/${params.rid}/${params.uid}`)
+        if (this.from.path.match("/joinRoom")) {
+          this.$router.push(`/room`)
+          return
+        }
+        this.$router.push(`/room/${this.$route.params.rid}/${this.$route.params.uid}`)
       })
     },
     closeDialog() {

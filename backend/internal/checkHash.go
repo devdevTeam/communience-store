@@ -24,12 +24,27 @@ func CheckHash(ctx *gin.Context) {
 		ctx.Writer.Write(res)
 		return
 	}
+	checkExist, err := CheckExistence(uid, roomInfo[0])
+	if err != nil {
+		ctx.Error(err)
+		return
+	}
+	if checkExist {
+		resp["error"] = "this user exists in this room"
+		res, _ := json.Marshal(resp)
+		ctx.Writer.Write(res)
+		return
+	}
 	msg, haveForm, err := join(uid, roomInfo[0], roomInfo[1])
 	if err != nil {
 		ctx.Error(err)
 		return
 	}
-	resp["error"] = msg
+	if msg == "" {
+		resp["error"] = nil
+	} else {
+		resp["error"] = msg
+	}
 	resp["rid"] = roomInfo[0]
 	resp["haveForm"] = haveForm
 	res, _ := json.Marshal(resp)

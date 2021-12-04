@@ -159,6 +159,24 @@ func SelectCardValue(uid, rid string) ([]string, error) {
 	return result, nil
 }
 
+func SelectUserRoomRelation(uid, rid string) ([]interface{}, error) {
+	query := `SELECT * FROM user_room_relation WHERE uid=$1 AND rid=$2`
+	rows, err := Conn.GetRow(query, uid, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]interface{}{}
+	for _, row := range rows {
+		tmp["admin"] = row[0].(bool)
+		tmp["uid"] = row[1].(string)
+		tmp["rid"] = row[2].(string)
+		result = append(result, tmp)
+		tmp = map[string]interface{}{}
+	}
+	return result, nil
+}
+
 func SelectUserRoomList(uid string) ([]interface{}, error) {
 	query := `SELECT rooms.*, user_room_relation.admin
 				FROM user_room_relation 

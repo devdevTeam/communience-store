@@ -103,7 +103,12 @@ export default {
           this.error.msg = error.msg
         }
         else {
-          this.$router.push({ path: '/' })
+          if (this.$nuxt.context.from.path.match("/joinRoom")) {
+            setTimeout(() => {
+              this.$router.go(-1)
+            }, 500)
+          }
+          this.$router.push({ path: '/room' })
         }
       }
     },

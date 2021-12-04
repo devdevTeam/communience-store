@@ -101,6 +101,23 @@ curl -X POST
 ```
 
 ## /room
+### /getRoomInfo
+- roomの情報
+```
+request-param
+.rid
+```
+```
+return-param
+.error
+.rid
+.name
+.haveForm
+.hash
+```
+```
+curl -X POST -d 'uid={uid}' -d 'rid={rid}' localhost:8080/api/getRoomInfo
+```
 ### /getRoomList
 - ログインしているuserが所属しているroom一覧
 ```

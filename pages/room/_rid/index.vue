@@ -36,7 +36,7 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item link>
-                <v-list-item-title>Roomに招待</v-list-item-title>
+                <v-list-item-title @click="show=true">Roomに招待</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-card>
@@ -59,17 +59,23 @@
         </v-col>
       </v-row>
     </v-container>
+    <presentInviteUrl @closeModal="show=false" v-if="show" :rid="$route.params.rid"></presentInviteUrl>
   </div>
 </template>
 
 <script>
 import post from "@/lib/post.js";
+import presentInviteUrl from '@/components/Room/presentInviteUrl.vue'
 
 export default {
+  components: {
+    presentInviteUrl
+  },
   data() {
     return {
       userList: [],
       admin: false,
+      show: false,
     };
   },
   beforeCreate() {

@@ -31,7 +31,7 @@ export default {
         this.faild = true
         return
       }
-      this.$router.push("/room")
+      this.$router.push(`/room/${res.data.rid}/${this.$store.getters.getUser.uid}/updateCardValue`);
     });
   },
   methods: {

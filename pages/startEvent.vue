@@ -61,7 +61,6 @@ export default {
       if (tmp.length != 0) {
         this.roomList.push(tmp);
       }
-      console.log(this.roomList)
     });
   },
   methods: {

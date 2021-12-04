@@ -39,7 +39,7 @@ export default {
       params.append("password", this.password);
       post("/event/joinEvent", params).then((res) => {
         if (res.data.error != null) {
-          console.log(error);
+          console.error(error);
           return;
         }
         this.$store.commit("set_event_org", this.prop_params.org_uid);

@@ -39,7 +39,7 @@ export default {
       params.append('password', this.password)
       let res = await post('/startEvent', params)
       if (res.data.error != null) {
-        console.log(res.data.error)
+        console.error(res.data.error)
       }
       else {
         this.$router.push("/event")

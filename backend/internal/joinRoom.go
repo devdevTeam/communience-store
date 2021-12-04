@@ -13,6 +13,18 @@ func JoinRoom(ctx *gin.Context) {
 	uid := req.PostFormValue("uid")
 	rid := req.PostFormValue("rid")
 	password := req.PostFormValue("password")
+	checkExist, err := CheckExistence(uid, rid)
+	resp := make(map[string]interface{})
+	if err != nil {
+		ctx.Error(err)
+		return
+	}
+	if checkExist {
+		resp["error"] = "this user exists in this room"
+		res, _ := json.Marshal(resp)
+		ctx.Writer.Write(res)
+		return
+	}
 	check, haveForm, err := CheckRoomPass(rid, password)
 	if err != nil {
 		ctx.Error(err)
@@ -31,16 +43,26 @@ func JoinRoom(ctx *gin.Context) {
 				return
 			}
 		}
-		resp := make(map[string]interface{})
 		resp["error"] = err
 		resp["haveForm"] = haveForm
 		res, _ := json.Marshal(resp)
 		ctx.Writer.Write(res)
 	} else {
-		resp := make(map[string]interface{})
 		resp["error"] = "isn't match password"
 		res, _ := json.Marshal(resp)
 		ctx.Writer.Write(res)
+	}
+}
+
+func CheckExistence(uid, rid string) (bool, error) {
+	relationInfo, err := lib.SelectUserRoomRelation(uid, rid)
+	if err != nil {
+		return false, err
+	}
+	if len(relationInfo) == 0 {
+		return false, nil
+	} else {
+		return true, nil
 	}
 }
 

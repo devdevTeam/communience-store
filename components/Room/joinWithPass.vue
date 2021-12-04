@@ -1,6 +1,6 @@
 <template>
   <div id="overlay">
-    <faildDialog :text="'パスワードが違います'" :dialog="faild" @closeDialog="closeDialog"></faildDialog>
+    <faildDialog :text="text" :dialog="faild" @closeDialog="closeDialog"></faildDialog>
     <div id="content">
       <h1 style="text-align: center" class="-color-black">パスワードを入力</h1>
       <h5 style="text-align: center" class="-color-black">Room ID : {{rid}}</h5>
@@ -36,6 +36,7 @@ export default {
       password: null,
       pass_f: false,
       faild: false,
+      text: "",
     }
   },
   methods: {
@@ -46,7 +47,17 @@ export default {
       params.append("password", this.password);
       post("/joinRoom", params).then((res) => {
         if (res.data.error != null) {
-          console.error(res.data.error);
+          console.log(res);
+          if (res.data.error === "isn't match password") {
+            this.text = "パスワードが違います"
+          }
+          else if (res.data.error === 'this user exists in this room') {
+            this.text = "このRoomに参加済みです"
+          }
+          else {
+            console.error(res.data.error);
+            this.text = "不具合が発生しました"
+          }
           this.faild = true
           return;
         }

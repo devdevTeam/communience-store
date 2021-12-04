@@ -1,7 +1,7 @@
 <template>
   <div>
     <faildDialog
-      :text="'無効なURLです'"
+      :text="text"
       :dialog="faild"
       @closeDialog="closeDialog"
     ></faildDialog>
@@ -19,7 +19,8 @@ export default {
   },
   data() {
     return {
-      faild: false
+      faild: false,
+      text: "",
     }
   },
   created() {
@@ -28,8 +29,21 @@ export default {
     params.append("hash", this.$route.params.uri);
     post("/checkHash", params).then((res) => {
       if (res.data.error != "") {
-        this.faild = true
-        return
+        if (res.data.error != null) {
+          console.log(res);
+          if (res.data.error === 'this user exists in this room') {
+            this.text = "このRoomに参加済みです"
+          }
+          else if (res.data.error === "invalid hash") {
+            this.text = "無効なURLです"
+          }
+          else {
+            console.error(res.data.error);
+            this.text = "不具合が発生しました"
+          }
+          this.faild = true
+          return;
+        }
       }
       this.$router.push(`/room/${res.data.rid}/${this.$store.getters.getUser.uid}/updateCardValue`);
     });

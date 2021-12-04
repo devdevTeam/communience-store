@@ -32,7 +32,7 @@
           <v-card>
             <v-list>
               <v-list-item link>
-                <v-list-item-title>イベントを開催</v-list-item-title>
+                <v-list-item-title @click="toStartEvent">イベントを開催</v-list-item-title>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item link>
@@ -97,6 +97,9 @@ export default {
     selectUser(uid) {
       let rid = this.$route.params.rid
       this.$router.push({ name: "room-rid-uid", params: { rid: rid, uid } });
+    },
+    toStartEvent() {
+      this.$router.push("/startEvent")
     },
   },
 };

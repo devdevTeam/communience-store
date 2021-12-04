@@ -2,6 +2,8 @@
   <div id="overlay">
     <div id="content">
       <h1 style="text-align: center" class="-color-black">パスワードを設定</h1>
+      <h5 style="text-align: center" class="-color-black">Room name: {{name}}</h5>
+      <h5 style="text-align: center" class="-color-black">Room ID: {{rid}}</h5>
       <v-col cols="12" md="10" offset-md="1">
         <v-text-field
           v-model="password"
@@ -24,7 +26,7 @@
 import post from '@/lib/post.js';
 
 export default {
-  props: ['rid'],
+  props: ['rid', 'name'],
   data() {
     return {
       password: null,

@@ -178,7 +178,7 @@ request-param
 ```
 ```
 return-param
-.done
+.error
 ```
 ```
 curl -X POST -d 'rid={rid}' -d 'uid={uid}' localhost:8080/api/leaveRoom

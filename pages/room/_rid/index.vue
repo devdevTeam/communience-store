@@ -1,11 +1,18 @@
 <template>
   <div>
+    <confirmDialog :text="'Roomから抜けますか？'" :dialog="confirm" @closeConfirmYes="leaveRoom" @closeConfirmNo="confirm=false"></confirmDialog>
     <v-container class="grey lighten-5">
       <v-row>
         <v-col md="5" offset-md="3" align-self="center">
-          <p style="font-size: 1.9em; text-align: center; color: black">
+          <h1 style="text-align: center; color: black">
             参加しているuser一覧
-          </p>
+          </h1>
+          <h2 style="text-align: center; color: black">
+            {{roomName}}
+          </h2>
+        </v-col>
+        <v-col  md="3" offset-md="1" v-if="!admin">
+          <v-btn outlined color="pink accent-3" @click="confirm=true"><b>Roomから抜ける</b></v-btn>
         </v-col>
         <v-menu
           :close-on-content-click="false"
@@ -66,16 +73,20 @@
 <script>
 import post from "@/lib/post.js";
 import presentInviteUrl from '@/components/Room/presentInviteUrl.vue'
+import confirmDialog from '@/components/confirmDialog.vue'
 
 export default {
   components: {
-    presentInviteUrl
+    presentInviteUrl,
+    confirmDialog
   },
   data() {
     return {
       userList: [],
       admin: false,
       show: false,
+      roomName: null,
+      confirm: false,
     };
   },
   beforeCreate() {
@@ -88,9 +99,14 @@ export default {
         this.userList.push(result);
       }
     });
+    post("/getRoomInfo", params).then((res) => {
+      if (res.data.error != null) {
+        console.error(res.data.error)
+      }
+      this.roomName = res.data.name
+    })
     params.append("uid", this.$store.getters.getUser.uid)
     post("/getRoomAdmin", params).then((res) => {
-      console.log(res);
       if (res.data.error != null) {
         console.error(res.data.error)
       }
@@ -107,6 +123,17 @@ export default {
     toStartEvent() {
       this.$router.push("/startEvent")
     },
+    leaveRoom() {
+      let params  = new URLSearchParams()
+      params.append("uid", this.$store.getters.getUser.uid)
+      params.append("rid", this.$route.params.rid)
+      post("/leaveRoom", params).then((res) => {
+        if (res.data.error != null) {
+          console.error(res.data.error);
+        }
+        this.$router.push("/room")
+      })
+    }
   },
 };
 </script>

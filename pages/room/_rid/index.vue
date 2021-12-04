@@ -23,6 +23,7 @@
                 color="indigo"
                 v-bind="attrs"
                 v-on="on"
+                v-if="admin"
               >
                 <v-icon dark> mdi-plus </v-icon>
               </v-btn>
@@ -31,11 +32,11 @@
           <v-card>
             <v-list>
               <v-list-item link>
-                <v-list-item-title>roomを作成</v-list-item-title>
+                <v-list-item-title>イベントを開催</v-list-item-title>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item link>
-                <v-list-item-title>roomに参加</v-list-item-title>
+                <v-list-item-title>Roomに招待</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-card>
@@ -68,6 +69,7 @@ export default {
   data() {
     return {
       userList: [],
+      admin: false,
     };
   },
   beforeCreate() {
@@ -80,6 +82,16 @@ export default {
         this.userList.push(result);
       }
     });
+    params.append("uid", this.$store.getters.getUser.uid)
+    post("/getRoomAdmin", params).then((res) => {
+      console.log(res);
+      if (res.data.error != null) {
+        console.error(res.data.error)
+      }
+      if (res.data.admin) {
+        this.admin = true
+      }
+    })
   },
   methods: {
     selectUser(uid) {

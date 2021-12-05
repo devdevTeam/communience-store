@@ -1,9 +1,9 @@
 <template>
   <div class="text-center">
     <v-dialog v-model="dialog" width="400">
-      <v-container>
+      <v-container style="background-color: #455A64;">
         <v-row justify="center" align-content="center">
-          <h2 class="-margin-top">{{ text }}</h2>
+          <h2 class="-margin-top" style="color: white;">{{ text }}</h2>
         </v-row>
         <v-row justify="center" align-content="center">
           <v-btn class="yes-btn -margin-top -margin-bottom" color="blue lighten-1" outlined @click="closeYes"> Yes </v-btn>

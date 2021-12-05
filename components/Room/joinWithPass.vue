@@ -1,6 +1,12 @@
 <template>
   <div id="overlay">
     <faildDialog :text="text" :dialog="faild" @closeDialog="closeDialog"></faildDialog>
+    <confirm-dialog 
+      :text="'MyCardをRoomに登録しますか？'" 
+      :dialog="confirm"
+      @closeConfirmYes="Yes" 
+      @closeConfirmNo="No"
+    ></confirm-dialog>
     <div id="content">
       <h1 style="text-align: center" class="-color-black">パスワードを入力</h1>
       <h5 style="text-align: center" class="-color-black">Room ID : {{rid}}</h5>
@@ -25,11 +31,14 @@
 <script>
 import post from '@/lib/post.js';
 import faildDialog from '@/components/faildDialog.vue'
+import ConfirmDialog from '@/components/confirmDialog.vue';
+
 
 export default {
   props: ['rid'],
   components: {
-    faildDialog
+    faildDialog,
+    ConfirmDialog
   },
   data() {
     return {
@@ -37,15 +46,18 @@ export default {
       pass_f: false,
       faild: false,
       text: "",
+      confirm: false,
+      succeed: false,
     }
   },
   methods: {
     async joinRoom() {
+      this.succeed = false
       let params = new URLSearchParams();
       params.append("uid", this.$store.getters.getUser.uid);
       params.append("rid", this.rid);
       params.append("password", this.password);
-      post("/joinRoom", params).then((res) => {
+      await post("/joinRoom", params).then((res) => {
         if (res.data.error != null) {
           console.log(res);
           if (res.data.error === "isn't match password") {
@@ -61,11 +73,37 @@ export default {
           this.faild = true
           return;
         }
-        this.$router.push(`/room/${this.rid}/${this.$store.getters.getUser.uid}/updateCardValue`);
+        else {
+          this.succeed = true
+        }
       });
+      if (this.succeed) {
+        let haveForm = true
+        await post("/getRoomInfo", params).then((res) => {
+          haveForm = res.data.haveForm
+        })
+        if (haveForm) {
+          this.$router.push(`/room/${this.rid}/${this.$store.getters.getUser.uid}/updateCardValue`);
+        }
+        else {
+          this.confirm = true
+        } 
+      }
     },
     closeDialog() {
       this.faild = false
+    },
+    Yes() {
+      this.confirm = false
+      this.$router.push(`/room/${this.rid}/`)
+    },
+    No() {
+      let params = new URLSearchParams();
+      params.append("uid", this.$store.getters.getUser.uid);
+      params.append("rid", this.rid)
+      post("/leaveRoom", params).then(() => {
+        this.confirm = false
+      })
     }
   }
 }

@@ -213,6 +213,31 @@ func SelectRoomUsers(rid string) ([]interface{}, error) {
 	return result, nil
 }
 
+func SelectRoomUserDefaultCard(rid string) ([]interface{}, error) {
+	query := `SELECT default_cards.*
+				FROM default_cards 
+				INNER JOIN user_room_relation ON default_cards.uid = user_room_relation.uid AND user_room_relation.rid=$1`
+	rows, err := Conn.GetRow(query, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]interface{}{}
+	var layout = "2006-01-02 15:04:05"
+	for _, row := range rows {
+		tmp["name"] = row[0].(string)
+		tmp["hurigana"] = row[1].(string)
+		tmp["birthday"] = row[2].(time.Time).Format(layout)
+		tmp["instagram"] = row[3].(string)
+		tmp["twitter"] = row[4].(string)
+		tmp["facebook"] = row[5].(string)
+		tmp["free"] = row[6].(string)
+		result = append(result, tmp)
+		tmp = map[string]interface{}{}
+	}
+	return result, nil
+}
+
 func SelectRoom(rid string) ([]interface{}, error) {
 	// |rid|name|password|have_form|hash|
 	query := "SELECT * FROM rooms WHERE rid = $1"

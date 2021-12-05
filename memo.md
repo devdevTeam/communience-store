@@ -52,7 +52,7 @@ return-param
 curl -X POST -d 'uid={uid}' localhost:8080/api/getUserInfo
 ```
 
-## /default_card
+## /default_cards
 ### /getDefaultCard
 ```
 request-param
@@ -90,13 +90,13 @@ return-param
 ```
 ```
 curl -X POST
--d 'uid={uid}'
--d 'colName=テスト太郎'
--d 'colHurigana=てすとたろう'
--d 'colBirthday=2000-01-20'
--d 'colInstagram=http://hoge.com'
--d 'colTwitter=http://fuga.com'
--d 'colFacebook=http://hogefuga.com'
+-d 'uid={uid}' \
+-d 'colName=テスト太郎' \
+-d 'colHurigana=てすとたろう' \
+-d 'colBirthday=2000-01-20' \
+-d 'colInstagram=http://hoge.com' \
+-d 'colTwitter=http://fuga.com' \
+-d 'colFacebook=http://hogefuga.com' \
 -d 'colFree=よろしく' localhost:8080/api/updateDefaultCard
 ```
 
@@ -152,6 +152,28 @@ return-param
 ```
 ```
 curl -X POST -d 'rid={rid}' localhost:8080/api/getRoomUsers
+```
+### /getRoomUserDefaultCard
+- roomに所属するuserのdefault_card一覧を取ってくる
+```
+request-param
+.rid
+```
+```
+return-param
+.error
+.defaultCardList[
+    .name
+    .hurigana
+    .birthday
+    .instagram
+    .twitter
+    .facebook
+    .free
+]
+```
+```
+curl -X POST -d 'rid=b5a30400-847e-4d06-a266-094035df218c' localhost:8000/api/getRoomUserDefaultCard
 ```
 ### /joinRoom
 - userがroomに参加する時にたたく

@@ -30,6 +30,7 @@ func main() {
 	api.POST("/searchRoom", internal.SearchRoom)
 	api.POST("/getRoomUsers", internal.GetRoomUsers)
 	api.POST("/getRoomAdmin", internal.GetRoomAdmin)
+	api.POST("/getRoomUserDefaultCard", internal.GetRoomUserDefaultCard)
 	api.POST("/getCardValue", internal.GetCardValue)
 	api.POST("/updateCardValue", internal.UpdateCardValue)
 	api.POST("/joinRoom", internal.JoinRoom)

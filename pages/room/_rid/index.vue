@@ -1,6 +1,12 @@
 <template>
   <div>
-    <confirmDialog :text="'Roomから抜けますか？'" :dialog="confirm" @closeConfirmYes="leaveRoom" @closeConfirmNo="confirm=false"></confirmDialog>
+    <confirmDialog 
+      :text="'Roomから抜けますか？'" 
+      :dialog="confirm" 
+      @closeConfirmYes="leaveRoom" 
+      @closeConfirmNo="confirm=false"
+    >
+    </confirmDialog>
     <v-container class="grey lighten-5">
       <v-row>
         <v-col md="5" offset-md="3" align-self="center">
@@ -86,6 +92,7 @@ export default {
       admin: false,
       show: false,
       roomName: null,
+      haveForm: true,
       confirm: false,
     };
   },
@@ -104,6 +111,7 @@ export default {
         console.error(res.data.error)
       }
       this.roomName = res.data.name
+      this.haveForm = res.data.haveForm
     })
     params.append("uid", this.$store.getters.getUser.uid)
     post("/getRoomAdmin", params).then((res) => {
@@ -118,7 +126,7 @@ export default {
   methods: {
     selectUser(uid) {
       let rid = this.$route.params.rid
-      this.$router.push({ name: "room-rid-uid", params: { rid: rid, uid } });
+      this.$router.push(`/room/${rid}/${uid}`);
     },
     toStartEvent() {
       this.$router.push("/startEvent")

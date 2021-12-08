@@ -259,7 +259,7 @@ return-param
 ]
 ```
 ```
-curl -X POST -d 'rid={rid}'-d 'colName=名前' -d 'value=田中' localhost:8080/api/searchRoomUser
+curl -X POST -d 'rid={rid}' -d 'haveForm=true' -d 'colName=名前' -d 'value=田中' localhost:8080/api/searchRoomUser
 ```
 ### /checkHash
 - hashのチェック

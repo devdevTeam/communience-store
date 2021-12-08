@@ -11,7 +11,7 @@ CREATE TABLE users (
 CREATE TABLE default_cards (
   name VARCHAR(64),
   hurigana VARCHAR(64),
-  birthday DATE,
+  birthday VARCHAR(64),
   instagram VARCHAR(64),
   twitter VARCHAR(64),
   facebook VARCHAR(64),

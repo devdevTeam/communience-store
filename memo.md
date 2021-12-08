@@ -93,7 +93,7 @@ curl -X POST
 -d 'uid={uid}' \
 -d 'colName=テスト太郎' \
 -d 'colHurigana=てすとたろう' \
--d 'colBirthday=2000-01-20' \
+-d 'colBirthday=2000/01/01' \
 -d 'colInstagram=http://hoge.com' \
 -d 'colTwitter=http://fuga.com' \
 -d 'colFacebook=http://hogefuga.com' \

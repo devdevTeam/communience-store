@@ -55,6 +55,31 @@
           </v-card>
         </v-menu>
       </v-row>
+      <v-row>
+        <v-col cols="12" md="3" offset-md="1">
+          <v-select
+            v-model="selected_col"
+            :items="cols"
+            label="項目"
+            light
+            filled
+            dense
+          ></v-select>
+        </v-col>
+        <v-col cols="12" md="7">
+          <v-text-field
+            v-model="value"
+            append-icon="mdi-magnify"
+            append-outer-icon="mdi-close-box-outline"
+            label="検索"
+            light
+            filled
+            dense
+            @click:append="search"
+            @click:append-outer="reset"
+          ></v-text-field>
+        </v-col>
+      </v-row>
       <v-row v-for="(two_users, i) in userList" :key="i">
         <v-col md="6" v-for="(user, j) in two_users" :key="j">
           <v-btn
@@ -94,6 +119,14 @@ export default {
       roomName: null,
       haveForm: true,
       confirm: false,
+      selected_col: [],
+      cols: [
+        {text: "名前", value: "name"},
+        {text: "生年月日", value: "birthday"},
+        {text: "趣味", value: "hobby"},
+        {text: "【自己紹介】", value: "free"},
+      ],
+      value: "",
     };
   },
   async beforeCreate() {
@@ -124,6 +157,16 @@ export default {
         this.admin = true
       }
     })
+    if (this.haveForm) {
+      post("/getForm", params).then((res)=> {
+        if (res.data.error != null) {
+          console.error(res.data.error)
+        }
+        else {
+          this.cols = res.data.colList
+        }
+      })
+    }
   },
   methods: {
     selectUser(uid) {
@@ -143,6 +186,34 @@ export default {
         }
         this.$router.push("/room")
       })
+    },
+    search() {
+      this.userList = []
+      let params  = new URLSearchParams()
+      params.append("rid", this.$route.params.rid)
+      params.append("haveForm", this.haveForm)
+      params.append("colName", this.selected_col)
+      params.append("value", this.value)
+      post("/searchRoomUser", params).then((res) => {
+        for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {
+          let multiple_cnt = i * 2;
+          let result = res.data.users.slice(multiple_cnt, multiple_cnt + 2);
+          this.userList.push(result);
+        }
+      })
+    },
+    reset() {
+      this.userList = []
+      let params  = new URLSearchParams()
+      params.append("rid", this.$route.params.rid)
+      params.append("haveForm", this.haveForm);
+      post("/getRoomUsers", params).then((res) => {
+        for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {
+          let multiple_cnt = i * 2;
+          let result = res.data.users.slice(multiple_cnt, multiple_cnt + 2);
+          this.userList.push(result);
+        }
+      });
     }
   },
 };

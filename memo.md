@@ -241,6 +241,26 @@ return-param
 ```
 curl -X POST -d 'name=room1' -d 'rid={rid}' localhost:8080/api/searchRoom
 ```
+### /searchRoomUser
+- room内のuser検索(col_nameとvalue)
+```
+request-param
+.rid
+.haveForm
+.colName
+.value
+```
+```
+return-param
+.error
+.users[
+    .uid
+    .displayValue
+]
+```
+```
+curl -X POST -d 'rid={rid}' -d 'haveForm=true' -d 'colName=名前' -d 'value=田中' localhost:8080/api/searchRoomUser
+```
 ### /checkHash
 - hashのチェック
 ```

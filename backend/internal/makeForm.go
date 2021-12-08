@@ -14,7 +14,9 @@ func MakeForm(ctx *gin.Context) {
 	rid := req.PostFormValue("rid")
 	colStr := req.PostFormValue("colList")
 	colList := strings.Split(colStr, ",")
-	err := lib.InsertNewForm(rid, colList)
+	boolStr := req.PostFormValue("displayBoolList")
+	boolStrList := strings.Split(boolStr, ",")
+	err := lib.InsertNewForm(rid, colList, boolStrList)
 	if err != nil {
 		ctx.Error(err)
 		return

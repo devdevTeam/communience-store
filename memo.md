@@ -328,6 +328,7 @@ curl -X POST -d 'rid={rid}' localhost:8080/api/getForm
 request-param
 .rid
 .colList(`,`で区切る)
+.displayBoolList(`,`で区切る)
 ```
 ```
 return-param

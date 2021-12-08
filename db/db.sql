@@ -41,6 +41,7 @@ CREATE TABLE forms (
     rid VARCHAR(64) NOT NULL,
     col_name VARCHAR(32) NOT NULL,
     col_idx INT NOT NULL,
+    display BOOLEAN NOT NULL,
     FOREIGN KEY (rid) REFERENCES rooms(rid) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

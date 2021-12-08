@@ -1,5 +1,7 @@
 package lib
 
+import "strconv"
+
 func InsertNewUser(uid, mail, password, userName string) error {
 	query := "INSERT INTO users (uid, mail, password, name) VALUES ($1, $2, $3, $4)"
 	err := Conn.Exec(query, uid, mail, password, userName)
@@ -28,10 +30,11 @@ func InsertNewRoom(rid, roomName, password string, have_form bool, hash string) 
 	return nil
 }
 
-func InsertNewForm(rid string, colList []string) error {
+func InsertNewForm(rid string, colList, bool_str_list []string) error {
 	for idx, colName := range colList {
-		query := "INSERT INTO forms (rid, col_name, col_idx) VALUES ($1, $2, $3)"
-		err := Conn.Exec(query, rid, colName, idx)
+		query := "INSERT INTO forms (rid, col_name, col_idx, display) VALUES ($1, $2, $3, $4)"
+		Bbool, _ := strconv.ParseBool(bool_str_list[idx])
+		err := Conn.Exec(query, rid, colName, idx, Bbool)
 		if err != nil {
 			return err
 		}

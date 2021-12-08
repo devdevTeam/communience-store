@@ -235,6 +235,48 @@ func SelectRoomUserDefaultCard(rid string) ([]interface{}, error) {
 	return result, nil
 }
 
+func SelectRoomDisplayInfo_forms(rid string) ([]interface{}, error) {
+	query := `SELECT user_room_relation.uid, card_value.value
+				FROM user_room_relation
+				INNER JOIN forms USING(rid) 
+				INNER JOIN card_value USING(uid, col_idx)
+				WHERE user_room_relation.rid = $1
+				AND display = true`
+	rows, err := Conn.GetRow(query, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]string{}
+	for _, row := range rows {
+		tmp["uid"] = row[0].(string)
+		tmp["displayValue"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]string{}
+	}
+	return result, nil
+}
+
+func SelectRoomDisplayInfo_default(rid string) ([]interface{}, error) {
+	query := `SELECT user_room_relation.uid, default_cards.name
+				FROM user_room_relation 
+				INNER JOIN default_cards USING(uid)
+				WHERE user_room_relation.rid = $1;`
+	rows, err := Conn.GetRow(query, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]string{}
+	for _, row := range rows {
+		tmp["uid"] = row[0].(string)
+		tmp["displayValue"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]string{}
+	}
+	return result, nil
+}
+
 func SelectRoom(rid string) ([]interface{}, error) {
 	// |rid|name|password|have_form|hash|
 	query := "SELECT * FROM rooms WHERE rid = $1"

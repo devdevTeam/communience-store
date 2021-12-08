@@ -3,6 +3,7 @@ package internal
 import (
 	"communience-store/backend/lib"
 	"encoding/json"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,8 +11,16 @@ import (
 func GetRoomUsers(ctx *gin.Context) {
 	req := ctx.Request
 	req.ParseForm()
-	uid := req.PostFormValue("rid")
-	userList, err := lib.SelectRoomUsers(uid)
+	rid := req.PostFormValue("rid")
+	haveForm := req.PostFormValue("haveForm")
+	BhaveForm, _ := strconv.ParseBool(haveForm)
+	var userList []interface{}
+	var err error
+	if BhaveForm {
+		userList, err = lib.SelectRoomDisplayInfo_forms(rid)
+	} else {
+		userList, err = lib.SelectRoomDisplayInfo_default(rid)
+	}
 	if err != nil {
 		ctx.Error(err)
 		return

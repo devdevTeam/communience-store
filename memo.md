@@ -141,13 +141,14 @@ curl -X POST -d 'uid={uid}' localhost:8080/api/getRoomList
 ```
 request-param
 .rid
+.haveForm
 ```
 ```
 return-param
 .error
 .users[
     .uid
-    .name
+    .displayValue
 ]
 ```
 ```
@@ -335,7 +336,11 @@ return-param
 .error
 ```
 ```
-curl -X POST -d 'rid={rid}' -d 'colList=名前,誕生日,得意教科,好きな食べ物,趣味' localhost:8080/api/makeForm
+curl -X POST \
+-d 'rid={rid}' \
+-d 'colList=名前,誕生日,得意教科,好きな食べ物,趣味' \
+-d 'displayBoolList=true,false,false,false,false' \
+localhost:8080/api/makeForm
 ```
 
 ## /event

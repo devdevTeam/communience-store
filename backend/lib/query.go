@@ -418,3 +418,61 @@ func SearchRoom(name, rid string) ([]interface{}, error) {
 	}
 	return result, nil
 }
+
+func SearchRoomUser_form(rid, col_name, value string) ([]interface{}, error) {
+	query := `SELECT user_room_relation.uid, card_value.value
+				FROM user_room_relation
+				INNER JOIN forms USING(rid) 
+				INNER JOIN card_value USING(uid, col_idx)
+				WHERE user_room_relation.rid = $1
+				AND forms.display = true
+				AND user_room_relation.uid in (
+					SELECT user_room_relation.uid
+					FROM user_room_relation
+					INNER JOIN forms USING(rid) 
+					INNER JOIN card_value USING(uid, col_idx)
+					WHERE user_room_relation.rid = $1
+					AND forms.col_name = $2
+					AND card_value.value LIKE '%` + value + `%'
+				)`
+	rows, err := Conn.GetRow(query, rid, col_name)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]string{}
+	for _, row := range rows {
+		tmp["uid"] = row[0].(string)
+		tmp["displayValue"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]string{}
+	}
+	return result, nil
+}
+
+func SearchRoomUser_default(rid, col_name, value string) ([]interface{}, error) {
+	query := `SELECT user_room_relation.uid, default_cards.name
+				FROM user_room_relation
+				INNER JOIN default_cards USING(uid)
+				WHERE user_room_relation.rid = $1
+				AND user_room_relation.uid in (
+					SELECT user_room_relation.uid
+					FROM user_room_relation
+					INNER JOIN default_cards USING(uid)
+					WHERE user_room_relation.rid = $1
+					AND default_cards.` + col_name + ` LIKE '%` + value + `%'
+				)`
+	rows, err := Conn.GetRow(query, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]string{}
+	for _, row := range rows {
+		tmp["uid"] = row[0].(string)
+		tmp["displayValue"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]string{}
+	}
+	return result, nil
+}

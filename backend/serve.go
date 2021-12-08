@@ -29,6 +29,7 @@ func main() {
 	api.POST("/getRoomList", internal.GetRoomList)
 	api.POST("/searchRoom", internal.SearchRoom)
 	api.POST("/getRoomUsers", internal.GetRoomUsers)
+	api.POST("/searchRoomUser", internal.SearchRoomUser)
 	api.POST("/getRoomAdmin", internal.GetRoomAdmin)
 	api.POST("/getRoomUserDefaultCard", internal.GetRoomUserDefaultCard)
 	api.POST("/getCardValue", internal.GetCardValue)

@@ -70,11 +70,13 @@
           <v-text-field
             v-model="value"
             append-icon="mdi-magnify"
+            append-outer-icon="mdi-close-box-outline"
             label="検索"
             light
             filled
             dense
             @click:append="search"
+            @click:append-outer="reset"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -199,6 +201,19 @@ export default {
           this.userList.push(result);
         }
       })
+    },
+    reset() {
+      this.userList = []
+      let params  = new URLSearchParams()
+      params.append("rid", this.$route.params.rid)
+      params.append("haveForm", this.haveForm);
+      post("/getRoomUsers", params).then((res) => {
+        for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {
+          let multiple_cnt = i * 2;
+          let result = res.data.users.slice(multiple_cnt, multiple_cnt + 2);
+          this.userList.push(result);
+        }
+      });
     }
   },
 };

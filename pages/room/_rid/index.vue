@@ -67,7 +67,7 @@
             tile
             @click="selectUser(user.uid)"
           >
-            {{ user.name }}
+            {{ user.displayValue }}
           </v-btn>
         </v-col>
       </v-row>
@@ -96,9 +96,18 @@ export default {
       confirm: false,
     };
   },
-  beforeCreate() {
+  async beforeCreate() {
     let params = new URLSearchParams();
     params.append("rid", this.$route.params.rid);
+    await post("/getRoomInfo", params).then((res) => {
+      if (res.data.error != null) {
+        console.error(res.data.error)
+      }
+      this.roomName = res.data.name
+      this.haveForm = res.data.haveForm
+    })
+    console.log(this.haveForm)
+    params.append("haveForm", this.haveForm);
     post("/getRoomUsers", params).then((res) => {
       for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {
         let multiple_cnt = i * 2;
@@ -106,13 +115,6 @@ export default {
         this.userList.push(result);
       }
     });
-    post("/getRoomInfo", params).then((res) => {
-      if (res.data.error != null) {
-        console.error(res.data.error)
-      }
-      this.roomName = res.data.name
-      this.haveForm = res.data.haveForm
-    })
     params.append("uid", this.$store.getters.getUser.uid)
     post("/getRoomAdmin", params).then((res) => {
       if (res.data.error != null) {

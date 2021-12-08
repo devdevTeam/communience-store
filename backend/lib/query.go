@@ -1,5 +1,7 @@
 package lib
 
+import "strconv"
+
 func InsertNewUser(uid, mail, password, userName string) error {
 	query := "INSERT INTO users (uid, mail, password, name) VALUES ($1, $2, $3, $4)"
 	err := Conn.Exec(query, uid, mail, password, userName)
@@ -28,10 +30,11 @@ func InsertNewRoom(rid, roomName, password string, have_form bool, hash string) 
 	return nil
 }
 
-func InsertNewForm(rid string, colList []string) error {
+func InsertNewForm(rid string, colList, bool_str_list []string) error {
 	for idx, colName := range colList {
-		query := "INSERT INTO forms (rid, col_name, col_idx) VALUES ($1, $2, $3)"
-		err := Conn.Exec(query, rid, colName, idx)
+		query := "INSERT INTO forms (rid, col_name, col_idx, display) VALUES ($1, $2, $3, $4)"
+		Bbool, _ := strconv.ParseBool(bool_str_list[idx])
+		err := Conn.Exec(query, rid, colName, idx, Bbool)
 		if err != nil {
 			return err
 		}
@@ -189,25 +192,6 @@ func SelectUserRoomList(uid string) ([]interface{}, error) {
 	return result, nil
 }
 
-func SelectRoomUsers(rid string) ([]interface{}, error) {
-	query := `SELECT users.uid, users.name
-				FROM user_room_relation 
-				INNER JOIN users ON user_room_relation.uid = users.uid AND user_room_relation.rid=$1`
-	rows, err := Conn.GetRow(query, rid)
-	if err != nil {
-		return nil, err
-	}
-	var result []interface{}
-	tmp := map[string]string{}
-	for _, row := range rows {
-		tmp["uid"] = row[0].(string)
-		tmp["name"] = row[1].(string)
-		result = append(result, tmp)
-		tmp = map[string]string{}
-	}
-	return result, nil
-}
-
 func SelectRoomUserDefaultCard(rid string) ([]interface{}, error) {
 	query := `SELECT default_cards.*
 				FROM default_cards 
@@ -228,6 +212,48 @@ func SelectRoomUserDefaultCard(rid string) ([]interface{}, error) {
 		tmp["free"] = row[6].(string)
 		result = append(result, tmp)
 		tmp = map[string]interface{}{}
+	}
+	return result, nil
+}
+
+func SelectRoomDisplayInfo_forms(rid string) ([]interface{}, error) {
+	query := `SELECT user_room_relation.uid, card_value.value
+				FROM user_room_relation
+				INNER JOIN forms USING(rid) 
+				INNER JOIN card_value USING(uid, col_idx)
+				WHERE user_room_relation.rid = $1
+				AND display = true`
+	rows, err := Conn.GetRow(query, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]string{}
+	for _, row := range rows {
+		tmp["uid"] = row[0].(string)
+		tmp["displayValue"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]string{}
+	}
+	return result, nil
+}
+
+func SelectRoomDisplayInfo_default(rid string) ([]interface{}, error) {
+	query := `SELECT user_room_relation.uid, default_cards.name
+				FROM user_room_relation 
+				INNER JOIN default_cards USING(uid)
+				WHERE user_room_relation.rid = $1;`
+	rows, err := Conn.GetRow(query, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]string{}
+	for _, row := range rows {
+		tmp["uid"] = row[0].(string)
+		tmp["displayValue"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]string{}
 	}
 	return result, nil
 }

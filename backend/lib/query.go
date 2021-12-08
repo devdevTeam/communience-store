@@ -192,25 +192,6 @@ func SelectUserRoomList(uid string) ([]interface{}, error) {
 	return result, nil
 }
 
-func SelectRoomUsers(rid string) ([]interface{}, error) {
-	query := `SELECT users.uid, users.name
-				FROM user_room_relation 
-				INNER JOIN users ON user_room_relation.uid = users.uid AND user_room_relation.rid=$1`
-	rows, err := Conn.GetRow(query, rid)
-	if err != nil {
-		return nil, err
-	}
-	var result []interface{}
-	tmp := map[string]string{}
-	for _, row := range rows {
-		tmp["uid"] = row[0].(string)
-		tmp["name"] = row[1].(string)
-		result = append(result, tmp)
-		tmp = map[string]string{}
-	}
-	return result, nil
-}
-
 func SelectRoomUserDefaultCard(rid string) ([]interface{}, error) {
 	query := `SELECT default_cards.*
 				FROM default_cards 

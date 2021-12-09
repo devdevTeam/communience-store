@@ -13,7 +13,7 @@ ENV DB_NAME commusto
 ENV DB_SCHEMA commusto
 ENV DB_SSL disable
 
-COPY . .
+COPY . /app/backend
 RUN go mod download
 RUN go mod tidy
 

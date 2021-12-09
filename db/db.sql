@@ -5,7 +5,15 @@ CREATE TABLE users (
     mail VARCHAR(32) NOT NULL,
     password VARCHAR(32) NOT NULL,
     name VARCHAR(32) NOT NULL,
+    hash VARCHAR(64) NOT NULL,
     PRIMARY KEY (uid)
+);
+
+CREATE TABLE user_friend_relation (
+    uid VARCHAR(32) NOT NULL,
+    fid VARCHAR(32) NOT NULL,
+    FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (fid) REFERENCES users(uid) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE default_cards (

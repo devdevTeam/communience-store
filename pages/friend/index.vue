@@ -31,7 +31,7 @@
           <v-card>
             <v-list>
               <v-list-item link>
-                <v-list-item-title @click="show=true">フレンドを追加する</v-list-item-title>
+                <v-list-item-title @click="input_show=true">フレンドを追加する</v-list-item-title>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item link>
@@ -83,23 +83,26 @@
         </v-col>
       </v-row>
     </v-container>
-    <presentUrl @closeModal="show=false" v-if="show" :uid="$store.getters.getUser.uid"></presentUrl>
+    <PresentUrl @closeModal="show=false" v-if="show" :uid="$store.getters.getUser.uid"></PresentUrl>
+    <InputURL @closeInput="input_show=false" v-if="input_show"></InputURL>
   </div>
 </template>
 
 
 <script>
 import post from "@/lib/post.js";
-import presentUrl from '@/components/Friend/presentUrl.vue'
-
+import PresentUrl from '@/components/Friend/presentUrl.vue'
+import InputURL from '@/components/Friend/inputURL.vue'
 
 export default {
   components: {
-    presentUrl,
+    PresentUrl,
+    InputURL
   },
   data() {
     return {
       show: false,
+      input_show: false,
       friendList: [],
       selected_col: [],
       cols: [

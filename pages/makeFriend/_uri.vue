@@ -27,7 +27,6 @@ export default {
   },
   async created() {
     this.succeed = false
-    let haveForm = true
     let params = new URLSearchParams();
     params.append("uid", this.$store.getters.getUser.uid);
     params.append("hash", this.$route.params.uri);

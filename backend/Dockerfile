@@ -13,8 +13,10 @@ ENV DB_NAME commusto
 ENV DB_SCHEMA commusto
 ENV DB_SSL disable
 
+COPY . .
+
 # install go hot reroad tool
 RUN go get -u github.com/cosmtrek/air
 EXPOSE 8000
 
-# CMD ["air"]
+CMD ["air"]

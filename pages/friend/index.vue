@@ -7,6 +7,39 @@
             フレンド一覧
           </h1>
         </v-col>
+        <v-menu
+          :close-on-content-click="false"
+          :nudge-width="100"
+          slide-y
+          bottom
+          left
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-col md="1" offset-md="3">
+              <v-btn
+                class="mb-2"
+                fab
+                dark
+                color="indigo"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon dark> mdi-plus </v-icon>
+              </v-btn>
+            </v-col>
+          </template>
+          <v-card>
+            <v-list>
+              <v-list-item link>
+                <v-list-item-title @click="show=true">フレンドを追加する</v-list-item-title>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item link>
+                <v-list-item-title @click="show=true">自分を紹介する</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-menu>
       </v-row>
       <v-row>
         <v-col cols="12" md="3" offset-md="1">
@@ -50,16 +83,23 @@
         </v-col>
       </v-row>
     </v-container>
+    <presentUrl @closeModal="show=false" v-if="show" :uid="$store.getters.getUser.uid"></presentUrl>
   </div>
 </template>
 
 
 <script>
 import post from "@/lib/post.js";
+import presentUrl from '@/components/Friend/presentUrl.vue'
+
 
 export default {
+  components: {
+    presentUrl,
+  },
   data() {
     return {
+      show: false,
       friendList: [],
       selected_col: [],
       cols: [

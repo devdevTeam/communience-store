@@ -21,6 +21,7 @@ func GetUserInfo(ctx *gin.Context) {
 	resp["uid"] = userInfo[0]
 	resp["mail"] = userInfo[1]
 	resp["name"] = userInfo[3]
+	resp["hash"] = userInfo[4]
 	res, _ := json.Marshal(resp)
 	ctx.Writer.Write(res)
 }

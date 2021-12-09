@@ -14,6 +14,8 @@ ENV DB_SCHEMA commusto
 ENV DB_SSL disable
 
 COPY . .
+RUN go mod download
+RUN go mod tidy
 
 # install go hot reroad tool
 RUN go get -u github.com/cosmtrek/air

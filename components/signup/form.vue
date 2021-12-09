@@ -76,6 +76,18 @@ export default {
       },
     }
   },
+  computed: {
+    login() {
+      return this.$store.getters.getUser
+    }
+  },
+  watch: {
+    login() {
+      if (this.login != null) {
+        this.$router.push({ path: '/mycard' })
+      }
+    }
+  },
   methods: {
     async send() {
       let params = new URLSearchParams()
@@ -101,14 +113,6 @@ export default {
           this.view = true
           this.error.title = error.title
           this.error.msg = error.msg
-        }
-        else {
-          if (this.$nuxt.context.from.path.match("/joinRoom")) {
-            setTimeout(() => {
-              this.$router.go(-1)
-            }, 500)
-          }
-          this.$router.push({ path: '/room' })
         }
       }
     },

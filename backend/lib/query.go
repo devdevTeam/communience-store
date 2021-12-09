@@ -13,7 +13,7 @@ func InsertNewUser(uid, mail, password, userName, hash string) error {
 
 func InsertNewDefaultCard(uid string) error {
 	query := `INSERT INTO default_cards (name, hurigana, birthday, instagram, twitter, facebook, free, hobby, uid) 
-				VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
+				VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 	err := Conn.Exec(query, "", "", "", "", "", "", "", "", uid)
 	if err != nil {
 		return err

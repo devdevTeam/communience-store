@@ -76,6 +76,23 @@ export default {
       },
     };
   },
+  computed: {
+    login() {
+      return this.$store.getters.getUser
+    }
+  },
+  watch: {
+    login() {
+      if(this.login != null) {
+
+        if (this.$nuxt.context.from.path.match("/joinRoom") || this.$nuxt.context.from.path.match("/makeFriend")) {
+          this.$router.go(-1)
+          return
+        }
+        this.$router.push("/room")
+      }
+    }
+  },
   methods: {
     async send() {
       let error = null;

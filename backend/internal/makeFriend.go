@@ -40,6 +40,11 @@ func MakeFriend(ctx *gin.Context) {
 		ctx.Error(err)
 		return
 	}
+	err = lib.InsertUserFriendRelation(userInfo[0], uid)
+	if err != nil {
+		ctx.Error(err)
+		return
+	}
 	resp["error"] = err
 	res, _ := json.Marshal(resp)
 	ctx.Writer.Write(res)

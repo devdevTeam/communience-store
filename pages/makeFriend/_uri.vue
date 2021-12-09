@@ -33,7 +33,10 @@ export default {
     await post("/makeFriend", params).then((res) => {
       if (res.data.error != null) {
         if (res.data.error === 'this user is your friend') {
-          this.text = "ユーザーはすでにフレンドになっています"
+          this.text = "このユーザーはすでにフレンドになっています"
+        }
+        else if (res.data.error === "can't become a friend with yourself") {
+          this.text = "自分自身をフレンドとして登録することはできません"
         }
         else if (res.data.error === "invalid hash") {
           this.text = "無効なURLです"

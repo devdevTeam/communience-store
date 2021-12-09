@@ -18,6 +18,12 @@ func MakeFriend(ctx *gin.Context) {
 		return
 	}
 	resp := make(map[string]interface{})
+	if uid == userInfo[0] {
+		resp["error"] = "can't become a friend with yourself"
+		res, _ := json.Marshal(resp)
+		ctx.Writer.Write(res)
+		return
+	}
 	if len(userInfo) == 0 {
 		resp["error"] = "invalid hash"
 		res, _ := json.Marshal(resp)

@@ -69,6 +69,7 @@ return-param
 .twitter
 .facebook
 .free
+.hobby(","区切り)
 ```
 ```
 curl -X POST -d 'uid={uid}' localhost:8080/api/getDefaultCard
@@ -84,6 +85,7 @@ request-param
 .twitter
 .facebook
 .free
+.hobby(","区切り)
 ```
 ```
 return-param
@@ -92,13 +94,15 @@ return-param
 ```
 curl -X POST \
 -d 'uid=9wznkRhLqQVYU5xGeREdc5tOo3s1' \
--d 'colName=テスト三郎' \
--d 'colHurigana=てすとたろう' \
--d 'colBirthday=2000/01/01' \
--d 'colInstagram=http://hoge.com' \
--d 'colTwitter=http://fuga.com' \
--d 'colFacebook=http://hogefuga.com' \
--d 'colFree=よろしく' \
+-d 'name=テスト三郎' \
+-d 'hurigana=てすとたろう' \
+-d 'birthday=2000/01/01' \
+-d 'instagram=http://hoge.com' \
+-d 'twitter=http://fuga.com' \
+-d 'facebook=http://hogefuga.com' \
+-d 'free=よろしく' \
+-d 'free=よろしく' \
+-d 'hobby=サッカー,ゲーム' \
 localhost:8000/api/updateDefaultCard
 ```
 

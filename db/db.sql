@@ -24,6 +24,7 @@ CREATE TABLE default_cards (
   twitter VARCHAR(64),
   facebook VARCHAR(64),
   free text,
+  hobby text,
   uid VARCHAR(32) NOT NULL,
   FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE ON UPDATE CASCADE
 );

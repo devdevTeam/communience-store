@@ -12,9 +12,9 @@ func InsertNewUser(uid, mail, password, userName, hash string) error {
 }
 
 func InsertNewDefaultCard(uid string) error {
-	query := `INSERT INTO default_cards (name, hurigana, birthday, instagram, twitter, facebook, free, uid) 
+	query := `INSERT INTO default_cards (name, hurigana, birthday, instagram, twitter, facebook, free, hobby, uid) 
 				VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
-	err := Conn.Exec(query, "", "", "", "", "", "", "", uid)
+	err := Conn.Exec(query, "", "", "", "", "", "", "", "", uid)
 	if err != nil {
 		return err
 	}
@@ -431,12 +431,13 @@ func UpdateEventCol(eid string, hidden_list []bool) error {
 	return nil
 }
 
-func UpdateDefaultCard(uid, name, hurigana, birthday, instagram, twitter, facebook, free string) error {
+func UpdateDefaultCard(uid, name, hurigana, birthday, instagram, twitter, facebook, free, hobby string) error {
 	query := `UPDATE default_cards 
 				SET name=$1, hurigana=$2, birthday=$3, 
-				instagram=$4, twitter=$5, facebook=$6, free=$7 
-				WHERE uid=$8`
-	err := Conn.Exec(query, name, hurigana, birthday, instagram, twitter, facebook, free, uid)
+				instagram=$4, twitter=$5, facebook=$6, 
+				free=$7, hobby=$8 
+				WHERE uid=$9`
+	err := Conn.Exec(query, name, hurigana, birthday, instagram, twitter, facebook, free, hobby, uid)
 	if err != nil {
 		return err
 	}

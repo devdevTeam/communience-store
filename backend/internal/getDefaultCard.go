@@ -25,6 +25,7 @@ func GetDefaultCard(ctx *gin.Context) {
 	resp["twitter"] = cardInfo[4]
 	resp["facebook"] = cardInfo[5]
 	resp["free"] = cardInfo[6]
+	resp["hobby"] = cardInfo[7]
 	res, _ := json.Marshal(resp)
 	ctx.Writer.Write(res)
 }

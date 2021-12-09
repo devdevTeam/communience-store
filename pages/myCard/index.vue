@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import MyCard from '../components/My-card.vue'
-import post from '../lib/post.js'
+import MyCard from '../../components/My-card.vue'
+import post from '../../lib/post.js'
 export default {
   components: { MyCard },
   async asyncData({store}) {

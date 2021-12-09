@@ -193,7 +193,9 @@ import post from "@/lib/post.js"
       }
     },
     created() {
-      this.hobby = ["サッカー","ゲーム"]
+      if (this.info.name == "") {
+        this.edit = true
+      }
     },
     methods: {  
       toLinck(url){
@@ -222,6 +224,7 @@ import post from "@/lib/post.js"
             console.error(res.data.error);
           }
           this.edit = false
+          location.reload();
         })
       },
       cancel() {

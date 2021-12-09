@@ -9,7 +9,7 @@
         <v-fab-transition
           >
             <v-btn
-              v-if="!edit"
+              v-if="!edit && canEdit"
               color="blue"
               fab
               dark
@@ -20,6 +20,19 @@
               @click="edit=!edit"
             >
               <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn 
+              v-else
+              fab
+              icon
+              dark
+              bottom
+              left
+              disabled
+            >
+                <v-icon>
+                  mdi-pencil-off
+                </v-icon>
             </v-btn>
           </v-fab-transition>
 
@@ -179,7 +192,7 @@
 <script>
 import post from "@/lib/post.js"
   export default {
-    props: ["info", "hobby", "friend"],
+    props: ["info", "hobby", "friend", "canEdit"],
     data() {
       return {
         edit: false,

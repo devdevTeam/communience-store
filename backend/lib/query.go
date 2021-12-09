@@ -283,7 +283,7 @@ func SelectUserFriendRelation(uid, fid string) (map[string]interface{}, error) {
 }
 
 func SelectUserFriend(rid string) ([]interface{}, error) {
-	query := `SELECT user_friend_relation.uid, default_cards.name
+	query := `SELECT user_friend_relation.fid, default_cards.name
 				FROM user_friend_relation 
 				INNER JOIN default_cards ON user_friend_relation.fid = default_cards.uid
 				WHERE user_friend_relation.uid = $1`

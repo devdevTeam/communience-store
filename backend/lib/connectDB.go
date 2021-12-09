@@ -34,7 +34,7 @@ func DBInit() {
 		sslmode,
 		schema)
 	var err error
-	// opt = deploy()
+	opt = deploy()
 	if Conn.Connection, err = sql.Open(dbType, opt); err != nil {
 		log.Fatalf("Connection error\n %s", err)
 	}

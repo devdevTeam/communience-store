@@ -18,7 +18,7 @@ RUN go mod download
 RUN go mod tidy
 
 # install go hot reroad tool
-RUN go get -u github.com/cosmtrek/air
+# RUN go get -u github.com/cosmtrek/air
 EXPOSE 8000
 
-CMD ["air"]
+CMD ["go", "run", "serve.go"]

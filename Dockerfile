@@ -12,4 +12,5 @@ COPY . /app
 
 RUN npm install
 
-CMD PORT=8080 npm run dev
+# CMD PORT=8080 npm run dev
+CMD npm run dev

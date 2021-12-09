@@ -11,7 +11,6 @@
         <div class="text-center">
           <v-btn
             center
-            :disabled="valid"
             color="primary"
             class="-margin-bottom"
             @click="submitUrl"

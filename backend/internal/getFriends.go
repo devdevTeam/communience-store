@@ -7,21 +7,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetUserInfo(ctx *gin.Context) {
+func GetUserFriends(ctx *gin.Context) {
 	req := ctx.Request
 	req.ParseForm()
 	uid := req.PostFormValue("uid")
-	userInfo, err := lib.SelectUser(uid)
+	friendList, err := lib.SelectUserFriend(uid)
 	if err != nil {
 		ctx.Error(err)
 		return
 	}
 	resp := make(map[string]interface{})
 	resp["error"] = err
-	resp["uid"] = userInfo[0]
-	resp["mail"] = userInfo[1]
-	resp["name"] = userInfo[3]
-	resp["hash"] = userInfo[4]
+	resp["friends"] = friendList
 	res, _ := json.Marshal(resp)
 	ctx.Writer.Write(res)
 }

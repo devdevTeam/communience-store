@@ -47,6 +47,7 @@ return-param
 .uid
 .mail
 .name
+.hash
 ```
 ```
 curl -X POST -d 'uid={uid}' localhost:8080/api/getUserInfo
@@ -89,15 +90,16 @@ return-param
 .error
 ```
 ```
-curl -X POST
--d 'uid={uid}' \
--d 'colName=テスト太郎' \
+curl -X POST \
+-d 'uid=9wznkRhLqQVYU5xGeREdc5tOo3s1' \
+-d 'colName=テスト三郎' \
 -d 'colHurigana=てすとたろう' \
 -d 'colBirthday=2000/01/01' \
 -d 'colInstagram=http://hoge.com' \
 -d 'colTwitter=http://fuga.com' \
 -d 'colFacebook=http://hogefuga.com' \
--d 'colFree=よろしく' localhost:8080/api/updateDefaultCard
+-d 'colFree=よろしく' \
+localhost:8000/api/updateDefaultCard
 ```
 
 ## /room
@@ -442,6 +444,57 @@ request-param
 ```
 return-param
 .done
+```
+## frined
+### /makeFriend
+- hashでフレンド追加
+```
+request-param
+.uid
+.hash
+```
+```
+return-param
+.error
+```
+```
+curl -X POST -d 'uid=kwtXygqiLxgzQoRweId4G0oWRCK2' -d 'hash=$2a$04$voZ9KgLyVbJF4u1dYfaAP.F4otus4lM7TSoZa9b7Of7zBSrii8fw.' localhost:8000/api/makeFriend
+```
+### /getFriends
+- フレンド一覧を取得する
+```
+request-param
+.uid
+```
+```
+return-param
+.error
+.friends[
+    .fid
+    .displayValue
+]
+```
+```
+curl -X POST -d 'uid=kwtXygqiLxgzQoRweId4G0oWRCK2' localhost:8000/api/getFriends
+```
+### searchFriend
+- フレンド一覧を検索する(絞り込む)
+```
+request-param
+.uid
+.colName
+.value
+```
+```
+return-param
+.error
+.friends[
+    .fid
+    .displayValue
+]
+```
+```
+curl -X POST -d 'uid=kwtXygqiLxgzQoRweId4G0oWRCK2' -d 'colName=name' -d 'value=次郎' localhost:8000/api/searchFriend
 ```
 
 

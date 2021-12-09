@@ -2,9 +2,9 @@ package lib
 
 import "strconv"
 
-func InsertNewUser(uid, mail, password, userName string) error {
-	query := "INSERT INTO users (uid, mail, password, name) VALUES ($1, $2, $3, $4)"
-	err := Conn.Exec(query, uid, mail, password, userName)
+func InsertNewUser(uid, mail, password, userName, hash string) error {
+	query := "INSERT INTO users (uid, mail, password, name, hash) VALUES ($1, $2, $3, $4, $5)"
+	err := Conn.Exec(query, uid, mail, password, userName, hash)
 	if err != nil {
 		return err
 	}
@@ -61,6 +61,15 @@ func InsertNewCardValue(uid, rid string) error {
 func InsertUserRoomRelation(uid, rid string, admin bool) error {
 	query := "INSERT INTO user_room_relation (uid, rid, admin) VALUES ($1, $2, $3)"
 	err := Conn.Exec(query, uid, rid, admin)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func InsertUserFriendRelation(uid, fid string) error {
+	query := "INSERT INTO user_friend_relation (uid, fid) VALUES ($1, $2)"
+	err := Conn.Exec(query, uid, fid)
 	if err != nil {
 		return err
 	}
@@ -195,7 +204,8 @@ func SelectUserRoomList(uid string) ([]interface{}, error) {
 func SelectRoomUserDefaultCard(rid string) ([]interface{}, error) {
 	query := `SELECT default_cards.*
 				FROM default_cards 
-				INNER JOIN user_room_relation ON default_cards.uid = user_room_relation.uid AND user_room_relation.rid=$1`
+				INNER JOIN user_room_relation ON default_cards.uid = user_room_relation.uid 
+				AND user_room_relation.rid=$1`
 	rows, err := Conn.GetRow(query, rid)
 	if err != nil {
 		return nil, err
@@ -258,6 +268,40 @@ func SelectRoomDisplayInfo_default(rid string) ([]interface{}, error) {
 	return result, nil
 }
 
+func SelectUserFriendRelation(uid, fid string) (map[string]interface{}, error) {
+	query := `SELECT * FROM user_friend_relation WHERE uid=$1 AND fid=$2`
+	row, err := Conn.GetRow(query, uid, fid)
+	if err != nil {
+		return nil, err
+	}
+	result := map[string]interface{}{}
+	if len(row) != 0 {
+		result["uid"] = row[0][0].(string)
+		result["fid"] = row[0][1].(string)
+	}
+	return result, nil
+}
+
+func SelectUserFriend(rid string) ([]interface{}, error) {
+	query := `SELECT user_friend_relation.uid, default_cards.name
+				FROM user_friend_relation 
+				INNER JOIN default_cards ON user_friend_relation.fid = default_cards.uid
+				WHERE user_friend_relation.uid = $1`
+	rows, err := Conn.GetRow(query, rid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]string{}
+	for _, row := range rows {
+		tmp["fid"] = row[0].(string)
+		tmp["displayValue"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]string{}
+	}
+	return result, nil
+}
+
 func SelectRoom(rid string) ([]interface{}, error) {
 	// |rid|name|password|have_form|hash|
 	query := "SELECT * FROM rooms WHERE rid = $1"
@@ -279,6 +323,22 @@ func SelectRoom(rid string) ([]interface{}, error) {
 func SelectRoomWithHash(hash string) ([]string, error) {
 	// |rid|name|password|have_form|hash|
 	query := "SELECT rid, password FROM rooms WHERE hash = $1"
+	row, err := Conn.GetRow(query, hash)
+	if err != nil {
+		return nil, err
+	}
+	var result []string
+	if len(row) != 0 {
+		for _, col := range row[0] {
+			result = append(result, col.(string))
+		}
+	}
+	return result, nil
+}
+
+func SelectUserWithHash(hash string) ([]string, error) {
+	// |rid|name|password|have_form|hash|
+	query := "SELECT uid, password FROM users WHERE hash = $1"
 	row, err := Conn.GetRow(query, hash)
 	if err != nil {
 		return nil, err
@@ -470,6 +530,33 @@ func SearchRoomUser_default(rid, col_name, value string) ([]interface{}, error) 
 	tmp := map[string]string{}
 	for _, row := range rows {
 		tmp["uid"] = row[0].(string)
+		tmp["displayValue"] = row[1].(string)
+		result = append(result, tmp)
+		tmp = map[string]string{}
+	}
+	return result, nil
+}
+
+func SearchFriend(uid, col_name, value string) ([]interface{}, error) {
+	query := `SELECT user_friend_relation.fid, default_cards.name
+				FROM user_friend_relation
+				INNER JOIN default_cards ON user_friend_relation.fid = default_cards.uid
+				WHERE user_friend_relation.uid = $1
+				AND user_friend_relation.fid in (
+					SELECT user_friend_relation.fid
+					FROM user_friend_relation
+					INNER JOIN default_cards ON user_friend_relation.fid = default_cards.uid
+					WHERE user_friend_relation.uid = $1
+					AND default_cards.` + col_name + ` LIKE '%` + value + `%'
+				)`
+	rows, err := Conn.GetRow(query, uid)
+	if err != nil {
+		return nil, err
+	}
+	var result []interface{}
+	tmp := map[string]string{}
+	for _, row := range rows {
+		tmp["fid"] = row[0].(string)
 		tmp["displayValue"] = row[1].(string)
 		result = append(result, tmp)
 		tmp = map[string]string{}

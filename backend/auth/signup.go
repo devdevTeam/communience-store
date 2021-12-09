@@ -43,7 +43,10 @@ func createUser(mail, password, username string) error {
 		return err
 	}
 	log.Printf("Successfully created user: %#v\n", u.UserInfo)
-	lib.InsertNewUser(u.UserInfo.UID, u.UserInfo.Email, password, u.UserInfo.DisplayName)
+	plain := u.UserInfo.UID + password
+	hash, err := lib.Encryption(plain)
+	Shash := string(hash)
+	lib.InsertNewUser(u.UserInfo.UID, u.UserInfo.Email, password, u.UserInfo.DisplayName, Shash)
 	err = lib.InsertNewDefaultCard(u.UserInfo.UID)
 	if err != nil {
 		return err

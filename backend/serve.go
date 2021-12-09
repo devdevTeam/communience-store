@@ -41,6 +41,9 @@ func main() {
 	api.POST("/getForm", internal.GetForm)
 	api.POST("/startEvent", internal.StartEvent)
 	api.POST("/getEventList", internal.GetEventList)
+	api.POST("/makeFriend", internal.MakeFriend)
+	api.POST("/getFriends", internal.GetUserFriends)
+	api.POST("/searchFriend", internal.SearchFriend)
 
 	e := r.Group("/api/event")
 	internal.NewMelody()

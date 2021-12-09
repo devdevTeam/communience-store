@@ -3,7 +3,7 @@
     <div id="content">
       <h1 style="text-align: center" class="-color-black">招待URL</h1>
       <h5 style="text-align: center" class="-color-black">
-        以下のURLを招待する人に共有してください
+        以下のURLをフレンドにしたい人に共有してください
       </h5>
       <v-row justify="center" align-content="center" class="-margin-top">
         <v-col cols="12" md="10" offset-md="0">
@@ -43,7 +43,7 @@
 import post from "@/lib/post.js";
 
 export default {
-  props: ["rid"],
+  props: ["uid"],
   data() {
     return {
       copied: false,
@@ -53,11 +53,11 @@ export default {
     };
   },
   async created() {
-    let origin = window.location.href.split("/room/")[0];
+    let origin = window.location.href.split("/friend")[0];
     let hash = null;
     let params = new URLSearchParams();
-    params.append("rid", this.rid);
-    await post("/getRoomInfo", params).then((res) => {
+    params.append("uid", this.uid);
+    await post("/getUserInfo", params).then((res) => {
       hash = res.data.hash;
     });
     this.origin = origin;
@@ -67,12 +67,12 @@ export default {
   },
   watch: {
     url() {
-      this.url = `${this.origin}/joinRoom/${this.hash}`;
+      this.url = `${this.origin}/makeFriend/${this.hash}`;
     },
   },
   methods: {
     copy() {
-      this.url = `${this.origin}/joinRoom/${this.hash}`;
+      this.url = `${this.origin}/makeFriend/${this.hash}`;
       navigator.clipboard.writeText(this.url);
       this.copied = true
       setTimeout(() => {this.copied = false}, 1000)

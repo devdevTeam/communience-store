@@ -33,8 +33,8 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-row v-for="(two_users, i) in userList" :key="i">
-        <v-col md="6" v-for="(user, j) in two_users" :key="j">
+      <v-row v-for="(two_friends, i) in friendList" :key="i">
+        <v-col md="6" v-for="(friend, j) in two_friends" :key="j">
           <v-btn
             block
             color="black"
@@ -43,9 +43,9 @@
             x-large
             outlined
             tile
-            @click="selectUser(user.uid)"
+            @click="selectFriend(friend.fid)"
           >
-            {{ user.displayValue }}
+            {{ friend.displayValue }}
           </v-btn>
         </v-col>
       </v-row>
@@ -60,7 +60,7 @@ import post from "@/lib/post.js";
 export default {
   data() {
     return {
-      userList: [],
+      friendList: [],
       selected_col: [],
       cols: [
         {text: "名前", value: "name"},
@@ -75,41 +75,41 @@ export default {
     let params = new URLSearchParams();
     params.append("uid", this.$store.getters.getUser.uid)
     post("/getFriends", params).then((res) => {
-      for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {
+      for (let i = 0; i < Math.ceil(res.data.friends.length / 2); i++) {
         let multiple_cnt = i * 2;
-        let result = res.data.users.slice(multiple_cnt, multiple_cnt + 2);
-        this.userList.push(result);
+        let result = res.data.friends.slice(multiple_cnt, multiple_cnt + 2);
+        this.friendList.push(result);
       }
     })
   },
   methods: {
-    selectUser(uid) {
-      this.$router.push(`/friend/${uid}`);
+    selectFriend(fid) {
+      this.$router.push(`/friend/${fid}`);
     },
     search() {
-      this.userList = []
+      this.friendList = []
       let params  = new URLSearchParams()
       params.append("uid", this.$store.getters.getUser.uid)
       params.append("colName", this.selected_col)
       params.append("value", this.value)
       post("/searchFriend", params).then((res) => {
-        for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {
+        for (let i = 0; i < Math.ceil(res.data.friends.length / 2); i++) {
           let multiple_cnt = i * 2;
-          let result = res.data.users.slice(multiple_cnt, multiple_cnt + 2);
-          this.userList.push(result);
+          let result = res.data.friends.slice(multiple_cnt, multiple_cnt + 2);
+          this.friendList.push(result);
         }
       })
     },
     reset() {
-      this.userList = []
+      this.friendList = []
       let params  = new URLSearchParams()
       params.append("uid", this.$store.getters.getUser.uid)
       params.append("haveForm", this.haveForm);
       post("/getFriends", params).then((res) => {
-        for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {
+        for (let i = 0; i < Math.ceil(res.data.friends.length / 2); i++) {
           let multiple_cnt = i * 2;
-          let result = res.data.users.slice(multiple_cnt, multiple_cnt + 2);
-          this.userList.push(result);
+          let result = res.data.friends.slice(multiple_cnt, multiple_cnt + 2);
+          this.friendList.push(result);
         }
       });
     }

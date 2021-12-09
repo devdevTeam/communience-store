@@ -2,7 +2,7 @@
 ### Node template
 
 # firebase
-backend/firebase/key/*
+# backend/firebase/key/*
 
 # backend
 backend/tmp/*

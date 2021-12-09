@@ -1,5 +1,5 @@
 <template>
-  <my-card :info=info :hobby=hobby :friend=friend></my-card>
+  <my-card :info=info :hobby=hobby :friend=friend :canEdit=false></my-card>
 </template>
 
 <script>
@@ -14,6 +14,7 @@ export default {
     await post("/getDefaultCard",params).then((res) => { 
       console.log(res);
       info = res.data;
+      hobby = res.data.hobby.split(",")
     })
     return {
       info: info,

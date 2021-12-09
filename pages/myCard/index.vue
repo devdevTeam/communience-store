@@ -1,5 +1,5 @@
 <template>
-  <my-card :info=info :hobby=hobby :friend=friend></my-card>
+  <my-card :info=info :hobby=hobby :friend=friend :canEdit=true></my-card>
 </template>
 
 <script>

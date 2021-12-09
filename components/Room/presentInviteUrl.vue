@@ -61,8 +61,9 @@ export default {
       hash = res.data.hash;
     });
     this.origin = origin;
-    this.hash = hash;
-    this.url = `${origin}/joinRoom/${hash}`;
+    const hashURL = encodeURIComponent(hash);
+    this.hash = hashURL;
+    this.url = `${origin}/makeFriend/${hashURL}`;
   },
   watch: {
     url() {

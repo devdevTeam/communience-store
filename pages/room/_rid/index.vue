@@ -147,6 +147,7 @@ export default {
       this.haveForm = res.data.haveForm
     })
     params.append("haveForm", this.haveForm);
+    this.userList = []
     post("/getRoomUsers", params).then((res) => {
       for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {
         let multiple_cnt = i * 2;

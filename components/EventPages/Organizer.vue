@@ -1,5 +1,8 @@
 <template>
   <v-main>
+    <v-row>
+      <v-btn text style="margin: -30px 0 30px 0" to="/event">＜ イベント一覧</v-btn>
+    </v-row>
     <v-container fluid fill-height class="grey lighten-5">
       <v-row justify="center" align="center">
         <v-col cols="12" md="6" offset-md="3">

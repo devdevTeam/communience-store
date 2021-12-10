@@ -10,7 +10,7 @@
             class="-margin-top"
           ></v-text-field>
           <v-text-field v-model="rid" label="Room ID" required></v-text-field>
-          <div class="text-center">
+          <div style="text-align: center;">
             <v-btn
               center
               :disabled="valid"

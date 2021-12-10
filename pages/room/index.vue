@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <v-container class="grey lighten-5">
       <v-row>
         <v-col md="5" offset-md="3" align-self="center">
@@ -58,7 +58,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-main>
 </template>
 
 <script>

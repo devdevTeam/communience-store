@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <v-container class="grey lighten-5">
       <v-row>
         <v-col md="5" offset-md="3" align-self="center">
@@ -26,7 +26,7 @@
       </v-row>
     </v-container>
     <setPassword @closeModal="show=false" v-if="show" :rid="selected_rid" :name="selected_name"></setPassword>
-  </div>
+  </v-main>
 </template>
 
 <script>

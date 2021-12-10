@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <v-main>
     <organizer v-if="admin" :items=eventCol :name=$store.getters.getEventInfo.name />
     <participant v-else :items=eventCol :name=$store.getters.getEventInfo.name />
-  </div>
+  </v-main>
 </template>
 
 <script>

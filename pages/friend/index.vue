@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <v-container class="grey lighten-5">
       <v-row>
         <v-col md="5" offset-md="3" align-self="center">
@@ -85,7 +85,7 @@
     </v-container>
     <PresentUrl @closeModal="show=false" v-if="show" :uid="$store.getters.getUser.uid"></PresentUrl>
     <InputURL @closeInput="input_show=false" v-if="input_show"></InputURL>
-  </div>
+  </v-main>
 </template>
 
 

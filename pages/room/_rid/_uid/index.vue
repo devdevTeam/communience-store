@@ -1,8 +1,36 @@
 <template>
   <v-main>
+    <v-row>
+      <v-btn text style="margin: -30px 0 30px 0" :to="`/room/${$route.params.rid}`">＜ 参加者一覧</v-btn>
+    </v-row>
     <my-card v-if="!form" :info="info" :hobby="hobby" :friend="friend"></my-card>
     <v-container v-else fluid fill-height class="grey lighten-5">
-      <v-row />
+      <v-row>
+        <v-btn
+          v-if="canEdit"
+          color="blue"
+          fab
+          dark
+          small
+          bottom
+          left
+          class="mt-3 ml-3"
+          @click="toUpdate"
+        >
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+        <v-btn 
+          v-else
+          fab
+          icon
+          light
+          bottom
+          left
+          disabled
+        >
+          <v-icon>mdi-pencil-off</v-icon>
+        </v-btn>
+      </v-row>
       <v-row justify="center" align-content="center" v-for="col, i in items" :key="i">
         <v-col md="4" offset-md="0" align-self="center">
           <h2 class="-color-black"><b>{{col}}</b></h2>
@@ -21,7 +49,7 @@ import post from '@/lib/post.js'
 import MyCard from '@/components/My-card.vue';
 export default {
   components: { MyCard },
-  async asyncData({route}) {
+  async asyncData({route, store}) {
     let form = true
     let info = null, hobby = [], friend = []
     let items = [], values = []
@@ -49,6 +77,10 @@ export default {
         values = res.data.cardValue
       })
     }
+    let canEdit = false
+    if (route.params.uid == store.getters.getUser.uid) {
+      canEdit = true
+    }
     return {
       info: info,
       hobby: hobby,
@@ -56,8 +88,14 @@ export default {
       items: items,
       values: values,
       form: form,
+      canEdit: canEdit,
     }
   },
+  methods: {
+    toUpdate() {
+      this.$router.push(`/room/${this.$route.params.rid}/${this.$route.params.uid}/updateCardValue`)
+    }
+  }
 };
 </script>
 

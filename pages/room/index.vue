@@ -31,11 +31,11 @@
           <v-card>
             <v-list>
               <v-list-item link>
-                <v-list-item-title>roomを作成</v-list-item-title>
+                <v-list-item-title @click="toMake">Roomを作成</v-list-item-title>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item link>
-                <v-list-item-title @click="toJoin">roomに参加</v-list-item-title>
+                <v-list-item-title @click="toJoin">Roomに参加</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-card>
@@ -84,6 +84,9 @@ export default {
   methods: {
     selectRoom(rid) {
       this.$router.push({ name: "room-rid", params: { rid: rid } });
+    },
+    toMake() {
+      this.$router.push("/makeRoom")
     },
     toJoin() {
       this.$router.push("/joinRoom")

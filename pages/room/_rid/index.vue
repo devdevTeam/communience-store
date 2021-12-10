@@ -44,8 +44,11 @@
           </template>
           <v-card>
             <v-list>
-              <v-list-item link>
+              <v-list-item  v-if="haveForm" link>
                 <v-list-item-title @click="toStartEvent">イベントを開催</v-list-item-title>
+              </v-list-item>
+              <v-list-item v-else>
+                <v-list-item-title><s>イベントを開催</s></v-list-item-title>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item link>
@@ -139,7 +142,6 @@ export default {
       this.roomName = res.data.name
       this.haveForm = res.data.haveForm
     })
-    console.log(this.haveForm)
     params.append("haveForm", this.haveForm);
     post("/getRoomUsers", params).then((res) => {
       for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {

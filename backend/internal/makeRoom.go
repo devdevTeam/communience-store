@@ -38,13 +38,6 @@ func MakeRoom(ctx *gin.Context) {
 		ctx.Error(err)
 		return
 	}
-	if BhaveForm {
-		err = lib.InsertNewCardValue(uid, rid)
-		if err != nil {
-			ctx.Error(err)
-			return
-		}
-	}
 	resp := make(map[string]interface{})
 	resp["error"] = err
 	resp["rid"] = rid

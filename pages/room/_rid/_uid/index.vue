@@ -2,14 +2,16 @@
   <v-main>
     <my-card v-if="!form" :info="info" :hobby="hobby" :friend="friend"></my-card>
     <v-container v-else fluid fill-height class="grey lighten-5">
+      <v-row />
       <v-row justify="center" align-content="center" v-for="col, i in items" :key="i">
         <v-col md="4" offset-md="0" align-self="center">
-          <v-list-item-title class="-color-black">{{col}}</v-list-item-title>
+          <h2 class="-color-black"><b>{{col}}</b></h2>
         </v-col>
         <v-col md="4" offset-md="0" align-self="center">
-          <v-list-item-title class="-color-black">{{values[i]}}</v-list-item-title>
+          <h2 class="-color-gray">{{values[i]}}</h2>
         </v-col>
       </v-row>
+      <v-row style="margin: 0px 0 30px 0" />
     </v-container>
   </v-main>
 </template>
@@ -62,5 +64,8 @@ export default {
 <style>
 .-color-black {
   color: black;
+}
+.-color-gray {
+  color: rgb(170, 54, 0);
 }
 </style>

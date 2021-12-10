@@ -1,6 +1,13 @@
 <template>
   <v-main>
     <v-container fluid fill-height class="grey lighten-5">
+      <v-row justify="center" align="center">
+        <v-col cols="12" md="3" offset-md="10">
+          <v-btn outlined color="pink darken-1" @click="closeEvent">
+            終了
+          </v-btn>
+        </v-col>
+      </v-row>
       <v-row
         justify="center"
         align-content="center"
@@ -29,6 +36,7 @@
 </template>
 
 <script>
+import post from "@/lib/post.js"
 export default {
   props: ["items"],
   methods: {
@@ -48,6 +56,17 @@ export default {
     changeHidden(i) {
       this.items[i].hidden = !this.items[i].hidden;
     },
+    closeEvent() {
+      let params = new URLSearchParams()
+      params.append("eid", this.$route.params.eid)
+      post("/closeEvent", params).then((res) => {
+        console.log(res)
+        if (res.data.error != null) {
+          console.error(res.data.error)
+        }
+        this.$router.push("/event")
+      })
+    }
   },
 };
 </script>

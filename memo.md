@@ -425,7 +425,7 @@ request-param
 ```
 ```
 return-param
-.done
+.error
 ```
 ### /paticipateEvent
 - イベントに参加する時にたたく

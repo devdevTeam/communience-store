@@ -114,6 +114,15 @@ func DeleteUserRoomRelation(uid, rid string) error {
 	return nil
 }
 
+func DeleteEvents(eid string) error {
+	query := "DELETE FROM events WHERE eid = $1"
+	err := Conn.Exec(query, eid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func SelectUser(uid string) ([]string, error) {
 	query := "SELECT * FROM users WHERE uid = $1"
 	row, err := Conn.GetRow(query, uid)

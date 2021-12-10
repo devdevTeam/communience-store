@@ -40,6 +40,7 @@ func main() {
 	api.POST("/makeForm", internal.MakeForm)
 	api.POST("/getForm", internal.GetForm)
 	api.POST("/startEvent", internal.StartEvent)
+	api.POST("/closeEvent", internal.CloseEvent)
 	api.POST("/getEventList", internal.GetEventList)
 	api.POST("/makeFriend", internal.MakeFriend)
 	api.POST("/getFriends", internal.GetUserFriends)

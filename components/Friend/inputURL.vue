@@ -11,7 +11,7 @@
               light
               class="-margin-top"
             ></v-text-field>
-            <div class="text-center">
+            <div style="text-align: center">
               <v-btn
                 id="submit"
                 center

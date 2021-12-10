@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <v-container class="grey lighten-5">
       <v-row>
         <v-col md="5" offset-md="3" align-self="center">
@@ -23,7 +23,7 @@
             x-large
             outlined
             tile
-            @click="selectEvent(event.eid, event.org_uid)"
+            @click="selectEvent(event)"
           >
             {{ event.name }}
           </v-btn>
@@ -35,7 +35,7 @@
       v-if="show"
       :prop_params="params"
     ></joinWithPass>
-  </div>
+  </v-main>
 </template>
 
 <script>
@@ -53,6 +53,8 @@ export default {
         uid: this.$store.getters.getUser.uid,
         eid: null,
         org_uid: null,
+        name: null,
+        rid: null,
       },
       show: false,
     };
@@ -69,9 +71,11 @@ export default {
     });
   },
   methods: {
-    selectEvent(eid, org_uid) {
-      this.params.eid = eid
-      this.params.org_uid = org_uid
+    selectEvent(event) {
+      this.params.eid = event.eid
+      this.params.org_uid = event.org_uid
+      this.params.name = event.name
+      this.params.rid = event.rid
       this.show = true
     },
   },

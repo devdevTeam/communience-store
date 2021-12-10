@@ -26,15 +26,6 @@
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn v-if="login_state" text @click.stop="rightDrawer = !rightDrawer">{{userInfo.name}}</v-btn>
@@ -66,7 +57,7 @@ import post from '@/lib/post.js'
 export default {
   data() {
     return {
-      clipped: false,
+      clipped: true,
       drawer: false,
       fixed: false,
       items: [
@@ -76,15 +67,30 @@ export default {
           to: "/",
         },
         {
-          icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          icon: "mdi-home-account",
+          title: "ルーム一覧",
+          to: "/room",
+        },
+        {
+          icon: "mdi-calendar",
+          title: "イベント一覧",
+          to: "/event",
+        },
+        {
+          icon: "mdi-account-lock",
+          title: "自分のカード",
+          to: "/mycard",
+        },
+        {
+          icon: "mdi-account-group",
+          title: "友達カード",
+          to: "/friend",
         },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "コミュスト",
+      title: "　　コミュスト",
       userInfo: {
         name: null
       }

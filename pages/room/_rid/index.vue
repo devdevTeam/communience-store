@@ -1,8 +1,12 @@
 <template>
-  <div>
+  <v-main>
+    <v-row>
+      <v-btn text style="margin: -30px 0 30px 0" to="/room">＜ Room一覧</v-btn>
+    </v-row>
     <confirmDialog 
       :text="'Roomから抜けますか？'" 
       :dialog="confirm" 
+      v-if="confirm"
       @closeConfirmYes="leaveRoom" 
       @closeConfirmNo="confirm=false"
     >
@@ -101,7 +105,7 @@
       </v-row>
     </v-container>
     <presentInviteUrl @closeModal="show=false" v-if="show" :rid="$route.params.rid"></presentInviteUrl>
-  </div>
+  </v-main>
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <organizer v-if="admin" :items=eventCol />
-    <participant v-else :items=eventCol />
-  </div>
+  <v-main>
+    <organizer v-if="admin" :items=eventCol :name=$store.getters.getEventInfo.name />
+    <participant v-else :items=eventCol :name=$store.getters.getEventInfo.name />
+  </v-main>
 </template>
 
 <script>
@@ -24,7 +24,7 @@ export default {
     };
   },
   created() {
-    if (this.$store.getters.getUser.uid === this.$store.getters.getEventOrg) {
+    if (this.$store.getters.getUser.uid === this.$store.getters.getEventInfo.org_uid) {
       this.admin = true 
     }
     let msg = JSON.stringify({

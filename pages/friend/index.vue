@@ -91,7 +91,7 @@
 
 <script>
 import post from "@/lib/post.js";
-import PresentUrl from '@/components/Friend/presentUrl.vue'
+import PresentUrl from '@/components/Friend/presentURL.vue'
 import InputURL from '@/components/Friend/inputURL.vue'
 
 export default {

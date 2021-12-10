@@ -3,6 +3,7 @@
     <faildDialog
       :text="'無効な操作です'"
       :dialog="faild"
+      v-if="faild"
       @closeDialog="closeDialog"
     ></faildDialog>
     <v-container fluid fill-height class="grey lighten-5">

@@ -76,9 +76,24 @@ export default {
           to: "/",
         },
         {
-          icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          icon: "mdi-account-group",
+          title: "友達カード",
+          to: "/friends-card",
+        },
+        {
+          icon: "mdi-account-lock",
+          title: "自分のカード",
+          to: "/mycard",
+        },
+        {
+          icon: "mdi-home-account",
+          title: "ルーム一覧",
+          to: "/room",
+        },
+        {
+          icon: "mdi-calendar",
+          title: "イベント一覧",
+          to: "/event",
         },
       ],
       miniVariant: false,

@@ -42,7 +42,7 @@ export default {
           console.error(error);
           return;
         }
-        this.$store.commit("set_event_org", this.prop_params.org_uid);
+        this.$store.commit("set_event_info", {"name": this.prop_params.name, "org_uid": this.prop_params.org_uid, "rid": this.prop_params.rid});
         this.$store.commit("connect_event_ws", this.prop_params.eid);
         this.$router.push({ name: "event-eid", params: { eid: this.prop_params.eid } });
       });

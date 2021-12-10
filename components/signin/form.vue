@@ -89,7 +89,7 @@ export default {
           this.$router.go(-1)
           return
         }
-        this.$router.push("/room")
+        this.$router.push("/")
       }
     }
   },

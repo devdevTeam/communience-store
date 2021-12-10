@@ -1,5 +1,13 @@
 <template>
-  <my-card :info=info :hobby=hobby :friend=friend :canEdit=false></my-card>
+  <v-main>
+    <v-row>
+      <v-col cols="12" md="3" offset-md="3">
+        <v-btn text style="margin: -40px 0 0px 0" to="/friend">＜ フレンド一覧</v-btn>
+      </v-col>
+      <v-col cols="12" md="6" />
+    </v-row>
+    <my-card :info=info :hobby=hobby :friend=friend :canEdit=false></my-card>
+  </v-main>
 </template>
 
 <script>

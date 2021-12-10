@@ -2,7 +2,10 @@
   <v-main>
     <v-container fluid fill-height class="grey lighten-5">
       <v-row justify="center" align="center">
-        <v-col cols="12" md="3" offset-md="10">
+        <v-col cols="12" md="6" offset-md="3">
+          <h1 class="-color-black" style="text-align: center;">{{name}}</h1>
+        </v-col>
+        <v-col cols="12" md="3" offset-md="0">
           <v-btn outlined color="pink darken-1" @click="closeEvent">
             終了
           </v-btn>
@@ -15,11 +18,11 @@
         :key="i"
       >
         <v-col md="4" offset-md="0" align-self="center">
-          <v-list-item-title v-if="!col.hidden" class="-color-black">{{
-            col.colName
-          }}</v-list-item-title>
+          <v-list-item-title v-if="!col.hidden" class="-color-black">
+            <h2>{{col.colName}}</h2>
+          </v-list-item-title>
           <v-list-item-title v-else class="-color-black"
-            ><s>{{ col.colName }}</s></v-list-item-title
+            ><h2><s>{{ col.colName }}</s></h2></v-list-item-title
           >
         </v-col>
         <v-col md="4" offset-md="0" align-self="center">
@@ -38,7 +41,7 @@
 <script>
 import post from "@/lib/post.js"
 export default {
-  props: ["items"],
+  props: ["items", "name"],
   methods: {
     updateCol() {
       let hidden_list = [];

@@ -375,7 +375,7 @@ func SelectForm(rid string) ([]string, error) {
 }
 
 func SelectUserEventList(uid string) ([]interface{}, error) {
-	query := `SELECT events.eid, events.org_uid, rooms.name
+	query := `SELECT events.eid, events.org_uid, rooms.name, rooms.rid
 				FROM events 
 				INNER JOIN user_room_relation
 				ON events.rid = user_room_relation.rid
@@ -392,6 +392,7 @@ func SelectUserEventList(uid string) ([]interface{}, error) {
 		tmp["eid"] = row[0].(string)
 		tmp["org_uid"] = row[1].(string)
 		tmp["name"] = row[2].(string)
+		tmp["rid"] = row[3].(string)
 		result = append(result, tmp)
 		tmp = map[string]interface{}{}
 	}

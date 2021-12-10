@@ -1,7 +1,7 @@
 const state = () => ({
   user: null,
   event_ws: null,
-  event_org: null,
+  event_info: null,
 });
 
 const mutations = {
@@ -11,8 +11,9 @@ const mutations = {
   connect_event_ws(state, eid) {
     state.event_ws = new WebSocket(`ws://localhost:8000/api/event/${eid}`)
   },
-  set_event_org(state, uid) {
-    state.event_org = uid
+  set_event_info(state, info) {
+    // .name .org_uid .rid
+    state.event_info = info
   }
 };
 
@@ -44,8 +45,8 @@ const getters = {
   getEventWs(state) {
     return state.event_ws;
   },
-  getEventOrg(state) {
-    return state.event_org;
+  getEventInfo(state) {
+    return state.event_info;
   }
 };
 

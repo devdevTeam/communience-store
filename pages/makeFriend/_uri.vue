@@ -1,11 +1,11 @@
 <template>
   <div>
+    <h1>フレンドになろうとしています</h1>
     <faildDialog
       :text="text"
       :dialog="faild"
       @closeDialog="closeDialog"
     ></faildDialog>
-    <h1>フレンドになろうとしています</h1>
   </div>
 </template>
 

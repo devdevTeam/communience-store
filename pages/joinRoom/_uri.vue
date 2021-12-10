@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Roomに参加しようとしています</h1>
     <faildDialog
       :text="text"
       :dialog="faild"
@@ -11,7 +12,6 @@
       @closeConfirmYes="Yes" 
       @closeConfirmNo="No"
     ></confirm-dialog>
-    <h1>Roomに参加しようとしています</h1>
   </div>
 </template>
 

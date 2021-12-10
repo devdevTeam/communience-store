@@ -3,14 +3,6 @@
     <v-row>
       <v-btn text style="margin: -30px 0 30px 0" to="/room">＜ Room一覧</v-btn>
     </v-row>
-    <confirmDialog 
-      :text="'Roomから抜けますか？'" 
-      :dialog="confirm" 
-      v-if="confirm"
-      @closeConfirmYes="leaveRoom" 
-      @closeConfirmNo="confirm=false"
-    >
-    </confirmDialog>
     <v-container class="grey lighten-5">
       <v-row>
         <v-col md="5" offset-md="3" align-self="center">
@@ -104,6 +96,14 @@
         </v-col>
       </v-row>
     </v-container>
+    <confirmDialog 
+      :text="'Roomから抜けますか？'" 
+      :dialog="confirm" 
+      v-if="confirm"
+      @closeConfirmYes="leaveRoom" 
+      @closeConfirmNo="confirm=false"
+    >
+    </confirmDialog>
     <presentInviteUrl @closeModal="show=false" v-if="show" :rid="$route.params.rid"></presentInviteUrl>
   </v-main>
 </template>
@@ -147,8 +147,10 @@ export default {
       this.haveForm = res.data.haveForm
     })
     params.append("haveForm", this.haveForm);
+    this.userList = []
     post("/getRoomUsers", params).then((res) => {
       for (let i = 0; i < Math.ceil(res.data.users.length / 2); i++) {
+        console.log(res.data);
         let multiple_cnt = i * 2;
         let result = res.data.users.slice(multiple_cnt, multiple_cnt + 2);
         this.userList.push(result);

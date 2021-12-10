@@ -114,6 +114,15 @@ func DeleteUserRoomRelation(uid, rid string) error {
 	return nil
 }
 
+func DeleteCardValue(uid, rid string) error {
+	query := "DELETE FROM card_value WHERE uid = $1 AND rid = $2"
+	err := Conn.Exec(query, uid, rid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func DeleteEvents(eid string) error {
 	query := "DELETE FROM events WHERE eid = $1"
 	err := Conn.Exec(query, eid)

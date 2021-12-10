@@ -17,6 +17,11 @@ func LeaveRoom(ctx *gin.Context) {
 		ctx.Error(err)
 		return
 	}
+	err = lib.DeleteCardValue(uid, rid)
+	if err != nil {
+		ctx.Error(err)
+		return
+	}
 	resp := make(map[string]interface{})
 	resp["error"] = err
 	res, _ := json.Marshal(resp)

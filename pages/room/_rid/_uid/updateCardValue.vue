@@ -1,11 +1,5 @@
 <template>
   <v-main>
-    <faildDialog
-      :text="'無効な操作です'"
-      :dialog="faild"
-      v-if="faild"
-      @closeDialog="closeDialog"
-    ></faildDialog>
     <v-container fluid fill-height class="grey lighten-5">
       <v-row justify="center" align-content="center" v-for="col, i in colList" :key="i">
         <v-col md="4" offset-md="0" align-self="center">
@@ -24,6 +18,12 @@
         <v-btn class="-bottom-margin" x-large color="primary" @click="updateCardValue">submit</v-btn>
       </v-row>
     </v-container>
+    <faildDialog
+      :text="'無効な操作です'"
+      :dialog="faild"
+      v-if="faild"
+      @closeDialog="closeDialog"
+    ></faildDialog>
   </v-main>
 </template>
 

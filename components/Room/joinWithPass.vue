@@ -1,12 +1,5 @@
 <template>
   <div id="overlay">
-    <faildDialog :text="text" :dialog="faild" @closeDialog="closeDialog"></faildDialog>
-    <confirm-dialog 
-      :text="'MyCardをRoomに登録しますか？'" 
-      :dialog="confirm"
-      @closeConfirmYes="Yes" 
-      @closeConfirmNo="No"
-    ></confirm-dialog>
     <div id="content">
       <h1 style="text-align: center" class="-color-black">パスワードを入力</h1>
       <h5 style="text-align: center" class="-color-black">Room ID : {{rid}}</h5>
@@ -25,6 +18,13 @@
         <v-btn color="primary" @click="$emit('closeModal')">close</v-btn>
       </v-row>
     </div>
+    <faildDialog :text="text" :dialog="faild" @closeDialog="closeDialog"></faildDialog>
+    <confirm-dialog 
+      :text="'MyCardをRoomに登録しますか？'" 
+      :dialog="confirm"
+      @closeConfirmYes="Yes" 
+      @closeConfirmNo="No"
+    ></confirm-dialog>
   </div>
 </template>
 

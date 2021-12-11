@@ -49,7 +49,7 @@ export default {
         this.$router.push({ name: "joinRoom-uri", params: { uri: "faild" }})
       }
       else {
-        this.$router.push({ name: "joinRoom-uri", params: { uri: uri }})
+        this.$router.push(`/joinRoom/${uri}`)
       }
     }
   }

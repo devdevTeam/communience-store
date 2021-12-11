@@ -353,6 +353,7 @@ curl -X POST -d 'rid={rid}' localhost:8080/api/getForm
 - そのroomのformを登録する
 ```
 request-param
+.uid
 .rid
 .colList(`,`で区切る)
 .displayBoolList(`,`で区切る)
@@ -382,6 +383,7 @@ return-param
     .eid
     .org_uid
     .name
+    .rid
 ]
 ```
 ```
@@ -400,7 +402,7 @@ return-param
 .error
 ```
 ```
-curl -X POST -d 'password=1111' -d 'org_uid=75POaUuQ97fc2ZfGB0hDOQj8llv2' -d 'rid=709689af-87bb-42f9-8f5e-1844b49596a2' localhost:8080/api/startEvent
+curl -X POST -d 'password=1111' -d 'org_uid=ARnnYl1RYZasByWvLB0yBcazcjE2' -d 'rid=aa81fe99-d601-4928-8b28-21e40c3f02a7' localhost:8000/api/startEvent
 ```
 ### /joinEvent
 ```
@@ -426,6 +428,9 @@ request-param
 ```
 return-param
 .error
+```
+```
+curl -X POST -d 'eid={eid}' localhost:8080/api/closeEvent
 ```
 ### /paticipateEvent
 - イベントに参加する時にたたく

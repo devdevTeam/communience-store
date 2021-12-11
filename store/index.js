@@ -10,7 +10,7 @@ const mutations = {
   },
   connect_event_ws(state, eid) {
     // state.event_ws = new WebSocket(`ws://localhost:8000/api/event/${eid}`)
-    state.event_ws = new WebSocket(`ws://commusto-back.herokuapp.com//api/event/${eid}`)
+    state.event_ws = new WebSocket(`wss://commusto-back.herokuapp.com//api/event/${eid}`)
   },
   set_event_info(state, info) {
     // .name .org_uid .rid

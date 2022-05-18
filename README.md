@@ -1,4 +1,9 @@
 # communience-store
+## デプロイ
+https://communiencestore.herokuapp.com/
+
+## 説明資料
+https://github.com/devdevTeam/communience-store/tree/master/doc
 
 ## 初回実行
 
